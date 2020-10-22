@@ -24,6 +24,7 @@ export default {
                 let new_list = []
                 for (let i=0;i<10;i++)
                     new_list.push({
+                        'no': i+1,
                         'checked': false,
                         'type': '등록상태',
                         'registDate': '2020-10-31 01:12:22',

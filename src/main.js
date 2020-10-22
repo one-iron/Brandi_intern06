@@ -4,11 +4,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
+import Antd from 'ant-design-vue';
+import 'ant-design-vue/dist/antd.css';
 
-Vue.config.productionTip = false
-Vue.use(Vuetify)
+Vue.config.productionTip = false;
+Vue.use(Antd);
 
 /* eslint-disable no-new */
 new Vue({
@@ -16,5 +16,4 @@ new Vue({
   router,
   components: { App },
   template: '<App/>',
-  vuetify: new Vuetify()
 })

@@ -2,22 +2,22 @@
   <div>
     <filter-box></filter-box>
     <div class="divide">
-      상품관리 / 상품 관리 > 상품관리 관리 > 리스트
-      <v-select dense outlined
-                :items="rowCounts"
+      <select dense outlined :items="rowCounts"
+                style="width: 100px; float:right"
       />
+      <div style="float:left">상품관리 / 상품 관리 > 상품관리 관리 > 리스트</div>
+      <div style="clear:both"></div>
     </div>
     <div class="region">
       <div class="total">
         전체 조회건 수 : <strong>1,965,623</strong>건
       </div>
-      <v-simple-table fixed-header class="column-bordered-table" height="500px">
-        <template v-slot:default>
+      <div style="height: 500px; overflow-x: auto; overflow-y: auto">
+        <table class="column-bordered-table">
           <thead>
           <tr>
-            <th class="text-center" width="30">
-              <v-simple-checkbox v-model="markAll"/></th>
-<!--            <th>등록상태</th>-->
+            <th><input type="checkbox" v-model="markAll"/></th>
+            <!--            <th>등록상태</th>-->
             <th>등록일</th>
             <th>대표이미지</th>
             <th>상품명</th>
@@ -26,7 +26,7 @@
             <th>상품번호</th>
             <th>셀러속성</th>
             <th>셀러명</th>
-<!--            <th>셀러구분</th>-->
+            <!--            <th>셀러구분</th>-->
 
             <th>판매가</th>
             <th>할인가</th>
@@ -38,9 +38,8 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="item in dataStore.list" :key="item.name">
-            <td><v-simple-checkbox v-model="item.checked"/></td>
-<!--            <td>{{ item.no }}</td> &lt;!&ndash; 등록상태 &ndash;&gt;-->
+          <tr v-for="item in dataStore.list" :key="item.no">
+            <td><input type="checkbox" v-model="item.checked"/></td>
             <td>{{ item.registDate }}</td> <!-- 등록일 -->
             <td><img :src="item.imgUrl" width="70" height="70"></td> <!-- 대표이미지 -->
             <td>{{ item.productName }}</td> <!-- 상품명 -->
@@ -55,33 +54,33 @@
             <td>{{ item.saleYn }}</td> <!-- 판매여부 -->
             <td>{{ item.exhibitYn }}</td> <!-- 진열여부 -->
             <td>{{ item.discountYn }}</td> <!-- 할인여부 -->
-<!--            <td><a href="#" @click.prevent="moveDetail(item)">{{ item.title }}</a></td>-->
+            <!--            <td><a href="#" @click.prevent="moveDetail(item)">{{ item.title }}</a></td>-->
             <td>
-              <v-btn small color="success">구매하기</v-btn>
+              <button small color="success">구매하기</button>
             </td>
           </tr>
           </tbody>
-        </template>
-      </v-simple-table>
+        </table>
+      </div>
       <div class="text-center">
-        <v-pagination
-          :total-visible="10"
-          v-model="dataStore.page"
-          :length="dataStore.maxPage"
-          @input="dataStore.changePage"
-        />
+<!--        <v-pagination-->
+<!--          :total-visible="10"-->
+<!--          v-model="dataStore.page"-->
+<!--          :length="dataStore.maxPage"-->
+<!--          @input="dataStore.changePage"-->
+<!--        />-->
       </div>
       <transition name="fade">
         <div class="spiner-box" v-show="dataStore.loading">
           <div class="spiner">
-            <v-progress-circular
-              :indeterminate="true"
-              :rotate="30"
-              :size="70"
-              :value="'10'"
-              :width="4"
-              color="light-blue"
-            >loading</v-progress-circular>
+<!--            <v-progress-circular-->
+<!--              :indeterminate="true"-->
+<!--              :rotate="30"-->
+<!--              :size="70"-->
+<!--              :value="'10'"-->
+<!--              :width="4"-->
+<!--              color="light-blue"-->
+<!--            >loading</v-progress-circular>-->
           </div>
         </div>
       </transition>
@@ -96,7 +95,7 @@ import FilterBox from './filter-box'
 
 export default {
 // extends: vuetify,
-  name: 'notice_vuetify',
+  name: 'product_list',
   components: {FilterBox},
   data () {
     return {
@@ -146,12 +145,17 @@ td>img {
 }
 .column-bordered-table {
   border: 1px solid #c3c3c3;
+  border-left: none;
+  border-right: none;
 }
 .column-bordered-table thead th, .column-bordered-table thead td {
   border-left: 1px solid #EEE;
   border-right: 1px solid #EEE;
   background-color: #F3F3F3 !important;
   white-space: nowrap;
+  height: 40px;
+  position: sticky;
+  top: 0;
   /*height: 20px !important;*/
 }
 .column-bordered-table thead tr.filter th {
