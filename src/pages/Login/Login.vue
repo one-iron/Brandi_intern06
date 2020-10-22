@@ -1,5 +1,7 @@
 <template>
-  <div>here is login</div>
+  <div>here is login
+      <v-combobox :items="['a','b']" />
+  </div>
 </template>
 
 <script>
