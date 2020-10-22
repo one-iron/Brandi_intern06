@@ -64,7 +64,8 @@
     "webpack-merge": "^4.1.0",
     "node-sass": "^4.11.1",
     "sass-loader": "^7.3.0",
-    "sass": "1.27.0"
+    "sass": "1.27.0",
+    "fibers": "5.0.0"
   },
   "engines": {
     "node": ">= 6.0.0",
