@@ -2,7 +2,7 @@
   <div>
     <filter-box></filter-box>
     <div class="divide">
-      <a-select style="width: 100px; float:right; ">
+      <a-select style="width: 100px; float:right; " v-model="dataStore.pageLen">
         <a-select-option :value="item.value" v-for="item in rowCounts">{{ item.label }}</a-select-option>
       </a-select>
       <div style="float:left; line-height: 32px;">상품관리 / 상품 관리 > 상품관리 관리 > 리스트</div>
@@ -10,30 +10,25 @@
     </div>
     <div class="region">
       <div class="total">
-        전체 조회건 수 : <strong>1,965,623</strong>건
+        전체 조회건 수 : <strong>{{ dataStore.total | makeComma }}</strong>건
       </div>
-      <div style="height: 500px; overflow-x: auto; overflow-y: auto">
+      <div class="table-box">
         <table class="column-bordered-table">
           <thead>
           <tr>
             <th><a-checkbox v-model="markAll"/></th>
-            <!--            <th>등록상태</th>-->
             <th>등록일</th>
             <th>대표이미지</th>
             <th>상품명</th>
             <th>상품코드</th>
-
             <th>상품번호</th>
             <th>셀러속성</th>
             <th>셀러명</th>
-            <!--            <th>셀러구분</th>-->
-
             <th>판매가</th>
             <th>할인가</th>
             <th>판매여부</th>
             <th>진열여부</th>
             <th>할인여부</th>
-
             <th>Actions</th>
           </tr>
           </thead>
@@ -43,18 +38,15 @@
             <td>{{ item.registDate }}</td> <!-- 등록일 -->
             <td><img :src="item.imgUrl" width="70" height="70"></td> <!-- 대표이미지 -->
             <td>{{ item.productName }}</td> <!-- 상품명 -->
-            <td>{{ item.productCode }}</td> <!-- 상품코드 -->
-
+            <td><router-link :to="'products/'+item.productCode">{{ item.productCode }}</router-link></td> <!-- 상품코드 -->
             <td>{{ item.productNo }}</td> <!-- 상품번호 -->
             <td>{{ item.sellerType }}</td> <!-- 셀러속성 -->
             <td>{{ item.sellerName }}</td> <!-- 셀러명 -->
-
-            <td>{{ item.salePrice }}</td> <!-- 판매가 -->
-            <td>{{ item.discountPrice }}</td> <!-- 할인가 -->
+            <td>{{ item.salePrice | makeComma }}</td> <!-- 판매가 -->
+            <td>{{ item.discountPrice | makeComma }} <span class="discount-rate" v-if="item.discountRate > 0">({{ item.discountRate }}%)</span></td> <!-- 할인가 -->
             <td>{{ item.saleYn }}</td> <!-- 판매여부 -->
             <td>{{ item.exhibitYn }}</td> <!-- 진열여부 -->
             <td>{{ item.discountYn }}</td> <!-- 할인여부 -->
-            <!--            <td><a href="#" @click.prevent="moveDetail(item)">{{ item.title }}</a></td>-->
             <td>
               <a-button type="primary" size="small">
                 구매하기
@@ -65,7 +57,7 @@
         </table>
       </div>
       <div class="papenation">
-        <a-pagination v-model="dataStore.page" :total="50" show-less-items @change="dataStore.changePage"/>
+        <a-pagination v-model="dataStore.page" :total="dataStore.total" :pageSize="dataStore.pageLen" show-less-items @change="dataStore.changePage"/>
         <!--        <v-pagination-->
 <!--          :total-visible="10"-->
 <!--          v-model="dataStore.page"-->
@@ -73,13 +65,10 @@
 <!--          @input="dataStore.changePage"-->
 <!--        />-->
       </div>
-      <transition name="fade">
+      <transition name="fade-spiner">
         <div class="spiner-box" v-show="dataStore.loading">
           <div class="spiner">
             <a-spin tip="Loading...">
-              <div class="spin-content">
-                loading
-              </div>
             </a-spin>
           </div>
         </div>
@@ -145,10 +134,20 @@ td>img {
   margin: 5px;
   font-size: 13px;
 }
-.column-bordered-table {
+.discount-rate {
+  color: red;
+}
+.table-box {
+  min-width: 100%;
+  height: 500px;
+  overflow-x: auto;
+  overflow-y: auto;
   border: 1px solid #c3c3c3;
   border-left: none;
   border-right: none;
+}
+.column-bordered-table {
+  width: 100%;
 }
 .column-bordered-table thead th, .column-bordered-table thead td {
   border-left: 1px solid #EEE;
@@ -158,7 +157,9 @@ td>img {
   height: 40px;
   position: sticky;
   top: 0;
+  z-index: 2;
   /*height: 20px !important;*/
+  text-align: center;
 }
 .column-bordered-table thead tr.filter th {
   background-color: #FFF !important;
@@ -187,6 +188,11 @@ td>img {
   height: 23px !important;
   white-space: nowrap;
   font-size: 13px !important;
+  -webkit-transition:background-color .3s;
+  transition:background-color .3s;
+}
+.column-bordered-table tr:hover td {
+  background-color: #edf1f5;
 }
 
 .column-bordered-table tfoot tr {
@@ -197,8 +203,7 @@ td>img {
   position: relative;
 }
 .spiner-box {
-  /*transition: opacity 1s;*/
-  opacity: 1;
+  /*opacity: 1;*/
   display: flex;
   justify-content: center;
   align-items: center;
@@ -208,14 +213,9 @@ td>img {
   width: 100%;
   height: 100%;
   z-index: 300;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0,0,0,0.2);
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
+.fade-spiner-enter-active, .fade-spiner-leave-active { transition: opacity .3s } .fade-spiner-enter, .fade-spiner-leave-to { opacity: 0 }
 
 .papenation {
   text-align: center;

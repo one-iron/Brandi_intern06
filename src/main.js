@@ -9,7 +9,9 @@ import 'ant-design-vue/dist/antd.css';
 
 Vue.config.productionTip = false;
 Vue.use(Antd);
-
+Vue.filter("makeComma", val =>{
+  return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
