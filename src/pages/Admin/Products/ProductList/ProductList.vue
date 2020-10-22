@@ -2,10 +2,10 @@
   <div>
     <filter-box></filter-box>
     <div class="divide">
-      <select dense outlined :items="rowCounts"
-                style="width: 100px; float:right"
-      />
-      <div style="float:left">상품관리 / 상품 관리 > 상품관리 관리 > 리스트</div>
+      <a-select style="width: 100px; float:right; ">
+        <a-select-option :value="item.value" v-for="item in rowCounts">{{ item.label }}</a-select-option>
+      </a-select>
+      <div style="float:left; line-height: 32px;">상품관리 / 상품 관리 > 상품관리 관리 > 리스트</div>
       <div style="clear:both"></div>
     </div>
     <div class="region">
@@ -16,7 +16,7 @@
         <table class="column-bordered-table">
           <thead>
           <tr>
-            <th><input type="checkbox" v-model="markAll"/></th>
+            <th><a-checkbox v-model="markAll"/></th>
             <!--            <th>등록상태</th>-->
             <th>등록일</th>
             <th>대표이미지</th>
@@ -39,7 +39,7 @@
           </thead>
           <tbody>
           <tr v-for="item in dataStore.list" :key="item.no">
-            <td><input type="checkbox" v-model="item.checked"/></td>
+            <td><a-checkbox v-model="item.checked"/></td>
             <td>{{ item.registDate }}</td> <!-- 등록일 -->
             <td><img :src="item.imgUrl" width="70" height="70"></td> <!-- 대표이미지 -->
             <td>{{ item.productName }}</td> <!-- 상품명 -->
@@ -56,14 +56,17 @@
             <td>{{ item.discountYn }}</td> <!-- 할인여부 -->
             <!--            <td><a href="#" @click.prevent="moveDetail(item)">{{ item.title }}</a></td>-->
             <td>
-              <button small color="success">구매하기</button>
+              <a-button type="primary" size="small">
+                구매하기
+              </a-button>
             </td>
           </tr>
           </tbody>
         </table>
       </div>
-      <div class="text-center">
-<!--        <v-pagination-->
+      <div class="papenation">
+        <a-pagination v-model="dataStore.page" :total="50" show-less-items @change="dataStore.changePage"/>
+        <!--        <v-pagination-->
 <!--          :total-visible="10"-->
 <!--          v-model="dataStore.page"-->
 <!--          :length="dataStore.maxPage"-->
@@ -73,14 +76,11 @@
       <transition name="fade">
         <div class="spiner-box" v-show="dataStore.loading">
           <div class="spiner">
-<!--            <v-progress-circular-->
-<!--              :indeterminate="true"-->
-<!--              :rotate="30"-->
-<!--              :size="70"-->
-<!--              :value="'10'"-->
-<!--              :width="4"-->
-<!--              color="light-blue"-->
-<!--            >loading</v-progress-circular>-->
+            <a-spin tip="Loading...">
+              <div class="spin-content">
+                loading
+              </div>
+            </a-spin>
           </div>
         </div>
       </transition>
@@ -102,7 +102,9 @@ export default {
       loading: true,
       dataStore: new Vue(store),
       rowCounts: [
-        '10개'
+        {label: '10개', value: 10},
+        {label: '20개', value: 20},
+        {label: '50개', value: 50},
       ]
     }
   },
@@ -211,9 +213,13 @@ td>img {
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.fade-enter, .fade-leave-to {
   opacity: 0;
 }
 
+.papenation {
+  text-align: center;
+  margin: 5px auto;
+}
 
 </style>

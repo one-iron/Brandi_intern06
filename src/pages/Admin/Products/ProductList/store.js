@@ -53,6 +53,7 @@ export default {
             // })
         },
         changePage(page) {
+            console.log(page)
             this.page = page;
             this.load();
         }
