@@ -1,5 +1,5 @@
 <template>
-  <div>here is registPr</div>
+  <div>here is regist and modify</div>
 </template>
 
 <script>

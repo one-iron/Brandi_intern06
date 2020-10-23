@@ -10,14 +10,14 @@
       <a-row :gutter="8" class="filter-row">
         <a-col :span="2" class="filter-label">셀러명</a-col>
         <a-col :span="7"><a-input-search placeholder="검색어를 입력해주세요." v-model="filter.sellerName"/></a-col>
-        <a-col :span="2">
-          <a-select style="width: 100%" v-model="filter.keywordType">
-            <a-select-option value="">Select...</a-select-option>
-            <a-select-option v-for="item in items" :key="value" :value="item.value">{{ item.label }}</a-select-option>
-          </a-select>
-        </a-col>
-        <a-col :span="5">
-          <a-input-search placeholder="검색어를 입력해주세요." v-model="filter.keywordValue"/>
+        <a-col :span="7">
+          <a-input-group compact>
+            <a-select v-model="filter.keywordType">
+              <a-select-option value="">Select...</a-select-option>
+              <a-select-option v-for="item in items" :key="value" :value="item.value">{{ item.label }}</a-select-option>
+            </a-select>
+            <a-input-search placeholder="검색어를 입력해주세요." v-model="filter.keywordValue" style="width: 70%"/>
+          </a-input-group>
         </a-col>
       </a-row>
       <a-row :gutter="8" class="filter-row">
@@ -68,12 +68,9 @@ export default {
         rangeDate: null
       },
       items: [
-        {label: '주문번호', value: 'orderNo'},
-        {label: '주문상세번호', value: 'orderDetailNo'},
-        {label: '주문자명', value: 'orderName'},
-        {label: '핸드폰번호', value: 'phoneNo'},
-        {label: '셀러명', value: 'sellerName'},
         {label: '상품명', value: 'productName'},
+        {label: '상품코드', value: 'productCode'},
+        {label: '상품번호', value: 'productNo'},
       ],
       sellerSections: [
         {label: '쇼핑몰', value: 1},

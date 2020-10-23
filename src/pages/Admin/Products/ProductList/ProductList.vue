@@ -8,6 +8,10 @@
       <div style="float:left; line-height: 32px;">상품관리 / 상품 관리 > 상품관리 관리 > 리스트</div>
       <div style="clear:both"></div>
     </div>
+    <div class="table-header-buttons">
+      <a-button size="small" type="success">선택한상품 엑셀다운로드</a-button>
+      <a-button size="small" type="success">전체상품 엑셀다운로드</a-button>
+    </div>
     <div class="region">
       <div class="total">
         전체 조회건 수 : <strong>{{ dataStore.total | makeComma }}</strong>건
@@ -129,6 +133,10 @@ td>img {
   padding: 5px 10px;
   font-size: 12px;
   font-width: bold;
+}
+.table-header-buttons {
+  text-align: right;
+  margin: 5px;
 }
 .total {
   margin: 5px;

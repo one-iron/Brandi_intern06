@@ -6,6 +6,7 @@ import App from './App'
 import router from './router'
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
+import 'antd-button-color/dist/css/style.css'; // or 'antd-button-color/dist/css/style.less'
 
 Vue.config.productionTip = false;
 Vue.use(Antd);
