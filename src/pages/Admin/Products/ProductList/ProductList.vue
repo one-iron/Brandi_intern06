@@ -13,7 +13,7 @@
       <a-button size="small" type="success">전체상품 엑셀다운로드</a-button>
     </div>
 
-    <board-list :data-store="dataStore">
+    <board-list :data-store="dataStore" :height="500">
       <template slot="header">
         <th>등록일</th>
         <th>대표이미지</th>
@@ -43,9 +43,7 @@
         <td>{{ item.exhibitYn }}</td> <!-- 진열여부 -->
         <td>{{ item.discountYn }}</td> <!-- 할인여부 -->
         <td>
-          <a-button type="primary" size="small">
-            구매하기
-          </a-button>
+          <a-button type="primary" size="small" @click="buyProduct(item)">구매하기</a-button>
         </td>
       </template>
     </board-list>
@@ -59,11 +57,10 @@ import FilterBox from './filter-box'
 import BoardList from '../../../Components/BoardList'
 
 export default {
-  name: 'product_list',
+  name: 'product-list',
   components: {BoardList, FilterBox},
   data () {
     return {
-      loading: true,
       dataStore: new Vue(store),
       rowCounts: [
         {label: '10개', value: 10},
@@ -73,25 +70,12 @@ export default {
     }
   },
   methods: {
-    moveDetail(row) {
-      console.log(row)
+    // 상품 구매
+    buyProduct(row) {
+      console.log('상품 구매', row)
     }
   },
   computed: {
-    markAll: {
-      set(v) {
-        this.dataStore.list.forEach((d)=>{
-          d.checked = v;
-        })
-      },
-      get() {
-        let noChecked = this.dataStore.list.filter((d)=>{
-          return !d.checked;
-        })
-        if (noChecked.length > 0) return false;
-        return true;
-      }
-    }
   }
 }
 </script>

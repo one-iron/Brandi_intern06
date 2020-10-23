@@ -3,7 +3,7 @@
     <div class="total">
       전체 조회건 수 : <strong>{{ dataStore.total | makeComma }}</strong>건
     </div>
-    <div class="table-box">
+    <div class="table-box" :style="{'height': height+'px'}">
       <table class="column-bordered-table">
         <thead>
         <tr>
@@ -45,6 +45,11 @@ export default {
       default() {
         return new Vue(store)
       }
+    },
+    height: {
+      default() {
+        return 500
+      }
     }
   },
   data () {
@@ -53,9 +58,6 @@ export default {
     }
   },
   methods: {
-    moveDetail(row) {
-      console.log(row)
-    }
   },
   computed: {
     markAll: {
@@ -75,7 +77,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 td>img {
   display: block;
 }
@@ -91,59 +93,56 @@ td>img {
   border: 1px solid #c3c3c3;
   border-left: none;
   border-right: none;
-}
-.column-bordered-table {
-  width: 100%;
-}
-.column-bordered-table thead th, .column-bordered-table thead td {
-  border-left: 1px solid #EEE;
-  border-right: 1px solid #EEE;
-  background-color: #F3F3F3 !important;
-  white-space: nowrap;
-  height: 40px;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  /*height: 20px !important;*/
-  text-align: center;
-}
-.column-bordered-table thead tr.filter th {
-  background-color: #FFF !important;
-}
 
-.column-bordered-table td:first-child {
-  border-left: none;
-}
-.column-bordered-table td:last-child {
-  border-right: none;
-}
-.column-bordered-table th:first-child {
-  border-left: none;
-}
-.column-bordered-table th:last-child {
-  border-right: none;
-}
-.column-bordered-table tr:nth-child(even){
-  background-color: #f9f9f9;
-}
+  .column-bordered-table {
+    width: 100%;
+    thead {
+      th, td {
+        border-left: 1px solid #EEE;
+        border-right: 1px solid #EEE;
+        background-color: #F3F3F3 !important;
+        white-space: nowrap;
+        height: 40px;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        /*height: 20px !important;*/
+        text-align: center;
+      }
+      tr.filter th {
+        background-color: #FFF !important;
+      }
+    }
+    td:first-child, th:first-child {
+      border-left: none;
+    }
+    td:last-child, th:last-child {
+      border-right: none;
+    }
+    tr:nth-child(even){
+      background-color: #f9f9f9;
+    }
+    td {
+      border-left: 1px solid #EEE;
+      border-right: 1px solid #EEE;
+      padding: 8px !important;
+      height: 23px !important;
+      white-space: nowrap;
+      font-size: 13px !important;
+      -webkit-transition:background-color .3s;
+      transition:background-color .3s;
+    }
+    tr:hover td {
+      background-color: #edf1f5;
+    }
+    tfoot {
+      tr {
+        border-top: 1px solid #EEE;
+        border-bottom: 1px solid #EEE;
+      }
+    }
+  }
 
-.column-bordered-table td {
-  border-left: 1px solid #EEE;
-  border-right: 1px solid #EEE;
-  padding: 8px !important;
-  height: 23px !important;
-  white-space: nowrap;
-  font-size: 13px !important;
-  -webkit-transition:background-color .3s;
-  transition:background-color .3s;
-}
-.column-bordered-table tr:hover td {
-  background-color: #edf1f5;
-}
-
-.column-bordered-table tfoot tr {
-  border-top: 1px solid #EEE;
-  border-bottom: 1px solid #EEE;
 }
 .region {
   position: relative;
