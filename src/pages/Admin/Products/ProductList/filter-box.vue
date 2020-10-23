@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import MultiSelectButtons from './multi-select-buttons'
+import MultiSelectButtons from '../../../Components/multi-select-buttons'
 export default {
   name: "filter-box",
   components: {MultiSelectButtons},

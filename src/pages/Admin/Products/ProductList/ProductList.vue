@@ -52,7 +52,7 @@
 
 <script>
 import Vue from 'vue'
-import store from './store'
+import store from './product-store'
 import FilterBox from './filter-box'
 import BoardList from '../../../Components/BoardList'
 
@@ -68,6 +68,8 @@ export default {
         {label: '50개', value: 50},
       ]
     }
+  },
+  mounted () {
   },
   methods: {
     // 상품 구매
