@@ -23,23 +23,23 @@
       <a-row :gutter="8" class="filter-row">
         <a-col :span="2" class="filter-label">셀러속성</a-col>
         <a-col :span="22">
-          <multi-select-buttons :items="sellerSections" v-model="filter.sellerSection"/>
+          <multi-select-buttons :items="constants.sellerSections" v-model="filter.sellerSection"/>
         </a-col>
       </a-row>
       <a-row :gutter="8" class="filter-row">
         <a-col :span="2" class="filter-label">판매여부</a-col>
         <a-col :span="7">
-          <multi-select-buttons :multiple-select="false" :items="saleTypes" v-model="filter.saleType"/>
+          <multi-select-buttons :multiple-select="false" :items="constants.saleTypes" v-model="filter.saleType"/>
         </a-col>
         <a-col :span="2" class="filter-label">진열여부</a-col>
         <a-col :span="7">
-          <multi-select-buttons :multiple-select="false" :items="exhibitTypes" v-model="filter.exhibitType"/>
+          <multi-select-buttons :multiple-select="false" :items="constants.exhibitTypes" v-model="filter.exhibitType"/>
         </a-col>
       </a-row>
       <a-row :gutter="8" class="filter-row">
         <a-col :span="2" class="filter-label">할인여부</a-col>
         <a-col :span="7">
-          <multi-select-buttons :multiple-select="false" :items="discountTypes" v-model="filter.discountType"/>
+          <multi-select-buttons :multiple-select="false" :items="constants.discountTypes" v-model="filter.discountType"/>
         </a-col>
       </a-row>
     </a-input-group>
@@ -52,6 +52,7 @@
 
 <script>
 import MultiSelectButtons from '../../../Components/multi-select-buttons'
+
 export default {
   name: "filter-box",
   components: {MultiSelectButtons},
@@ -71,35 +72,19 @@ export default {
         {label: '상품명', value: 'productName'},
         {label: '상품코드', value: 'productCode'},
         {label: '상품번호', value: 'productNo'},
-      ],
-      sellerSections: [
-        {label: '쇼핑몰', value: 1},
-        {label: '마켓', value: 2},
-        {label: '로드샵', value: 3},
-
-        {label: '디자이너브랜드', value: 4},
-        {label: '제너럴브랜드', value: 5},
-        {label: '내셔널브랜드', value: 6},
-
-        {label: '뷰티', value: 7},
-      ],
-      saleTypes: [
-        {label: '판매', value: 'Y'},
-        {label: '미판매', value: 'N'},
-      ],
-      exhibitTypes: [
-        {label: '진열', value: 'Y'},
-        {label: '미진열', value: 'N'},
-      ],
-      discountTypes: [
-        {label: '할인', value: 'Y'},
-        {label: '미할인', value: 'N'},
       ]
+    }
+  },
+  computed : {
+    constants() {
+      return this.$store.state.const
     }
   },
   created() {
     // 리셋 기능을 위해 clone 데이터 생성
     this.backupFilter = JSON.parse(JSON.stringify(this.filter))
+  },
+  mounted () {
   },
   methods: {
     search() {

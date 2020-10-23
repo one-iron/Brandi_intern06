@@ -8,8 +8,10 @@
 
 <script>
 import koKr from 'ant-design-vue/lib/locale-provider/ko_KR';
+import store from './vuex/store'
 export default {
   name: "App",
+  store: store,
   data() {
     return {
       locale: koKr
