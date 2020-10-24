@@ -3,7 +3,7 @@
     <filter-box></filter-box>
     <div class="divide">
       <a-select style="width: 100px; float:right; " v-model="dataStore.pageLen">
-        <a-select-option :value="item.value" v-for="item in rowCounts">{{ item.label }}</a-select-option>
+        <a-select-option :value="item.value" v-for="item in rowCounts" :key="item.value">{{ item.label }}</a-select-option>
       </a-select>
       <div style="float:left; line-height: 32px;">상품관리 / 상품 관리 > 상품관리 관리 > 리스트</div>
       <div style="clear:both"></div>
