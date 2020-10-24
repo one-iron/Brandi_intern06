@@ -86,7 +86,7 @@ export default {
   background: #F1F1F1;
   padding: 5px 10px;
   font-size: 12px;
-  font-width: bold;
+  font-weight: bold;
 }
 .table-header-buttons {
   text-align: right;
