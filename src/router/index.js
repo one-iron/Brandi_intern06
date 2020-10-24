@@ -22,8 +22,6 @@ import ReadyProduct from '../pages/Admin/Orders/ReadyProduct/ReadyProduct'
 import DetailOrder from '../pages/Admin/Orders/DetailOrder/DetailOrder'
 
 
-
-
 Vue.use(Router)
 
 export default new Router({

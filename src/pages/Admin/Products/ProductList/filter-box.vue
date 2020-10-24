@@ -14,7 +14,7 @@
           <a-input-group compact>
             <a-select v-model="filter.keywordType">
               <a-select-option value="">Select...</a-select-option>
-              <a-select-option v-for="item in items" :key="value" :value="item.value">{{ item.label }}</a-select-option>
+              <a-select-option v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</a-select-option>
             </a-select>
             <a-input-search placeholder="검색어를 입력해주세요." v-model="filter.keywordValue" style="width: 70%"/>
           </a-input-group>
