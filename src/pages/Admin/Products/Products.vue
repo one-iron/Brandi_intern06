@@ -1,6 +1,5 @@
 <template>
   <div>
-    here is product
     <router-view />
   </div>
 </template>
