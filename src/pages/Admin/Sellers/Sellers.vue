@@ -1,6 +1,5 @@
 <template>
   <div>
-    here is sellers
     <router-view />
   </div>
 </template>

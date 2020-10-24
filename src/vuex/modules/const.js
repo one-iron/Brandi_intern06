@@ -16,6 +16,32 @@ export default {
         {label: '판매', value: 'Y'},
         {label: '미판매', value: 'N'},
       ],
+      sellerStatus: [
+        {label: '입점신청', value: 1},
+        {label: '입점', value: 2},
+        {label: '휴점', value: 3},
+        {label: '퇴점대기', value: 4},
+        {label: '퇴점', value: 5},
+        {label: '입점거절', value: 6},
+      ],
+      sellerStatusActions: {
+        1: [
+          {label: '입점승인', value: 2, type: 'info'}
+          , {label: '입점거절', value: 6, type: 'danger'}
+        ],
+        2: [
+          {label: '휴점신청', value: 3, type: 'warning'}
+          , {label: '퇴점신청', value: 4, type: 'danger'}
+        ],
+        3: [
+          {label: '휴점해제', value: 2, type: 'success'}
+          , {label: '퇴점신청', value: 4, type: 'danger'}
+        ],
+        4: [
+          {label: '퇴점해제', value: 2, type: 'info'}
+          , {label: '퇴점승인', value: 5, type: 'danger'}
+        ]
+      },
       exhibitTypes: [
         {label: '진열', value: 'Y'},
         {label: '미진열', value: 'N'},
