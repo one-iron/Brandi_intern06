@@ -73,7 +73,7 @@ header {
   min-height: 45px;
   border: 0px;
   margin: 0;
-  background: #873b53;
+  background: #1a1a1a;
   box-shadow: none;
   z-index: 1200;
   font-family: sans-serif;

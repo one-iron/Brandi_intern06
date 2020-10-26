@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>상품 관리</h2>
     <filter-box></filter-box>
     <div class="divide">
       <a-select style="width: 100px; float:right; " v-model="dataStore.pageLen">
@@ -85,6 +86,8 @@ export default {
 .divide {
   background: #F1F1F1;
   padding: 5px 10px;
+  margin-left: -20px;
+  margin-right: -20px;
   font-size: 12px;
   font-weight: bold;
 }
