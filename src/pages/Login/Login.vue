@@ -10,7 +10,7 @@
           <span>아이디 / 비밀번호 기억하기</span>
         </div>
         <div class="right">
-          <span>비밀번호를 잊으셨나요?</span>
+          <span>비밀번호를 잊으셨나요? </span>
         </div>
       </div>
       <div class="loginBtn" @click="checkValid()">로그인</div>
