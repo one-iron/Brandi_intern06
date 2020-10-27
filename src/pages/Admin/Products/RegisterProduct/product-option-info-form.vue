@@ -12,11 +12,11 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(item, index) in data.colors">
+          <tr v-for="(item, index) in data.colors" :key="item.value">
             <td :rowspan="data.colors.length" v-if="index == 0">색상</td>
             <td>
               <a-select show-search :data-source="colorList" :filter-option="filterOption" v-model="item.colorId" style="width: 100%">
-                <a-select-option :value="item.value" v-for="item in colorList">{{item.text}}</a-select-option>
+                <a-select-option :value="item.value" v-for="item in colorList" :key="item.value">{{item.text}}</a-select-option>
               </a-select>
             </td>
             <td>
@@ -24,11 +24,11 @@
               <a-button type="normal" @click="popColor(index)" v-show="data.colors.length > 1">-</a-button>
             </td>
           </tr>
-          <tr v-for="(item, index) in data.sizes">
+          <tr v-for="(item, index) in data.sizes" :key="item.value">
             <td :rowspan="data.sizes.length" v-if="index == 0">사이즈</td>
             <td>
               <a-select show-search :data-source="sizeList" :filter-option="filterOption" v-model="item.sizeId" style="width: 100%">
-                <a-select-option :value="item.value" v-for="item in sizeList">{{item.text}}</a-select-option>
+                <a-select-option :value="item.value" v-for="item in sizeList" :key="item.value">{{item.text}}</a-select-option>
               </a-select>
             </td>
             <td>
@@ -67,15 +67,15 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(item, index) in options">
+          <tr v-for="(item, index) in options" :key="item.value">
             <td>
               <a-select show-search :data-source="colorList" :filter-option="filterOption" v-model="item.colorId" style="width: 100%">
-                <a-select-option :value="item.value" v-for="item in colorList">{{item.text}}</a-select-option>
+                <a-select-option :value="item.value" v-for="item in colorList" :key="item.value">{{item.text}}</a-select-option>
               </a-select>
             </td>
             <td>
               <a-select show-search :data-source="sizeList" :filter-option="filterOption" v-model="item.sizeId" style="width: 100%">
-                <a-select-option :value="item.value" v-for="item in sizeList">{{item.text}}</a-select-option>
+                <a-select-option :value="item.value" v-for="item in sizeList" :key="item.value">{{item.text}}</a-select-option>
               </a-select>
             </td>
             <td>

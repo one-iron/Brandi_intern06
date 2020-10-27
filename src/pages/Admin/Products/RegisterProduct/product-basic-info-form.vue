@@ -56,7 +56,7 @@
       <a-descriptions-item :span="3">
         <template slot="label">이미지 등록 <span class="required">*</span></template>
 
-        <image-upload v-for="i in [0,1,2,3,4]"/>
+        <image-upload v-for="i in [0,1,2,3,4]" :key="i"/>
         <br>
         640 * 720 사이즈 이상 등록 가능하며 확장자는 jpg 만 등록 가능합니다.
 
