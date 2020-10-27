@@ -24,26 +24,26 @@
         <th>담당자연락처</th>
         <th>담당자이메일</th>
         <th>셀러속성</th>
-        <th>상품개수</th>
-        <th>URL</th>
+<!--        <th>상품개수</th>-->
+<!--        <th>URL</th>-->
         <th>등록일시</th>
         <th>Actions</th>
       </template>
       <template slot="row" slot-scope="{item}">
-        <td>{{ item.sellerNo }}</td> <!-- 번호 -->
-        <td>{{ item.sellerId }}</td> <!-- 셀러아이디 -->
-        <td>{{ item.sellerEnName }}</td> <!-- 영문이름 -->
-        <td><router-link :to="'sellers/'+item.sellerNo">{{ item.sellerName }}</router-link></td> <!-- 한글이름 -->
-        <td>{{ item.managerName }}</td> <!-- 담당자이름 -->
-        <td>{{ item.sellerStatus }}</td> <!-- 셀러상태 -->
-        <td>{{ item.managerPhoneNo }} </td> <!-- 담당자연락처 -->
-        <td>{{ item.managerEmail }}</td> <!-- 담당자이메일 -->
-        <td>{{ item.sellerType }}</td> <!-- 셀러속성 -->
-        <td>{{ item.productCount }}</td> <!-- 상품개수 -->
-        <td>{{ item.shopUrl }}</td> <!-- URL -->
-        <td>{{ item.registDate }}</td> <!-- 등록일시 -->
+        <td>{{ item.id }}</td> <!-- 번호 -->
+        <td>{{ item.account }}</td> <!-- 셀러아이디 -->
+        <td>{{ item.brand_name_english }}</td> <!-- 영문이름 -->
+        <td><router-link :to="'sellers/'+item.id">{{ item.brand_name_korean }}</router-link></td> <!-- 한글이름 -->
+        <td>{{ item.name }}</td> <!-- 담당자이름 -->
+        <td>{{ item.seller_status_name }}</td> <!-- 셀러상태 -->
+        <td>{{ item.phone_number }} </td> <!-- 담당자연락처 -->
+        <td>{{ item.email }}</td> <!-- 담당자이메일 -->
+        <td>{{ item.seller_property_id }}</td> <!-- 셀러속성 -->
+<!--        <td>{{ 0 }}</td> &lt;!&ndash; 상품개수 &ndash;&gt;-->
+<!--        <td>{{ item.shopUrl }}</td> &lt;!&ndash; URL &ndash;&gt;-->
+        <td>{{ item.created_at }}</td> <!-- 등록일시 -->
         <td>
-          <template v-for="action in constants.sellerStatusActions[item.sellerStatusNo]">
+          <template v-for="action in constants.sellerStatusActions[item.seller_status_id]">
             <a-button :type="action.type" size="small" @click="changeSellerStatus(item, action.value)">{{ action.label }}</a-button>
           </template>
           <a-button type="normal" size="small" @click="moveToShop(item)">Web</a-button>

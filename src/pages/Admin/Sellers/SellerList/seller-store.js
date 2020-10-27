@@ -29,25 +29,25 @@ export default {
             setTimeout(()=>{
                 let new_list = []
                 for (let i=0;i<this.pageLen;i++) {
-                    let productCount = Math.floor(Math.random()*1000)
+                    // let productCount = Math.floor(Math.random()*1000)
                     let sellerStatus = Math.floor(Math.random()*4)
                     let nowStatus = this.constants.sellerStatus[sellerStatus]
 
                     new_list.push({
-                        'sellerNo': i + 1,
+                        'id': i + 1,
                         'checked': false,
-                        'sellerId': 'id'+(i+1),
-                        'sellerEnName': 'interwoncheo'+(i+1),
-                        'sellerName': '인턴원철',
-                        'sellerType': '쇼핑몰',
-                        'managerName': '이원철',
-                        'sellerStatus': nowStatus.label,
-                        'sellerStatusNo': nowStatus.value,
-                        'managerPhoneNo': '000-1111-2222',
-                        'managerEmail': 'ewc@naver.com',
-                        'productCount': productCount,
-                        'shopUrl': 'https://www.ewc.com',
-                        'registDate': '2020-10-31 01:12:22'
+                        'account': 'id'+(i+1),
+                        'brand_name_english': 'interwoncheo'+(i+1),
+                        'brand_name_korean': '인턴원철',
+                        'seller_property_id': '쇼핑몰',
+                        'name': '이원철',
+                        'seller_status_name': nowStatus.label,
+                        'seller_status_id': nowStatus.value,
+                        'phone_number': '000-1111-2222',
+                        'email': 'ewc@naver.com',
+                        // 'productCount': productCount,
+                        // 'shopUrl': 'https://www.ewc.com',
+                        'created_at': '2020-10-31 01:12:22'
                       })
                 }
                 this.loading = false;
