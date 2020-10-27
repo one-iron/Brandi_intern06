@@ -78,7 +78,7 @@ export default new Router({
             // 회원관리 > 회원수정
             {
               path: ':sellerNo',
-              name: 'RegisterSeller',
+              name: 'ModifySeller',
               component: RegisterSeller
             },
           ]

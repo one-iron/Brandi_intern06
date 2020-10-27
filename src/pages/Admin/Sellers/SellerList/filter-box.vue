@@ -23,13 +23,13 @@
       <a-row :gutter="8" class="filter-row">
         <a-col :span="2" class="filter-label">셀러속성</a-col>
         <a-col :span="22">
-          <multi-select-buttons :items="constants.sellerSections" v-model="filter.sellerSection"/>
+          <multi-select-buttons :items="constants.sellerSections" v-model="filter.seller_property_id"/>
         </a-col>
       </a-row>
       <a-row :gutter="8" class="filter-row">
         <a-col :span="2" class="filter-label">셀러상태</a-col>
         <a-col :span="22">
-          <multi-select-buttons :multiple-select="false" :items="constants.sellerStatus" v-model="filter.exhibitType"/>
+          <multi-select-buttons :multiple-select="false" :items="constants.sellerStatus" v-model="filter.seller_status_id"/>
         </a-col>
       </a-row>
     </a-input-group>
@@ -49,22 +49,20 @@ export default {
   data() {
     return {
       filter: {
-        sellerSection: [],
-        saleType: [],
-        exhibitType: [],
-        sellerName: '',
+        seller_property_id: [],
+        seller_status_id: [],
+        brand_name_korean: '',
         keywordType: '',
         keywordValue: '',
-        discountType: '',
-        rangeDate: null
+        created_at: null
       },
       items: [
-        {label: '셀러번호', value: 'sellerNo'},
-        {label: '셀러아이디', value: 'sellerId'},
-        {label: '셀러영문명', value: 'sellerEnName'},
-        {label: '담당자이름', value: 'managerName'},
-        {label: '담당자연락처', value: 'managerPhoneNo'},
-        {label: '담당자이메일', value: 'managerEmail'},
+        {label: '셀러번호', value: 'id'},
+        {label: '셀러아이디', value: 'account'},
+        {label: '셀러영문명', value: 'brand_name_english'},
+        {label: '담당자이름', value: 'brand_name_korean'},
+        {label: '담당자연락처', value: 'phone_number'},
+        {label: '담당자이메일', value: 'email'},
       ]
     }
   },
