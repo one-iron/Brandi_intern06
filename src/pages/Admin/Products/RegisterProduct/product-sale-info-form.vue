@@ -3,7 +3,7 @@
     <a-descriptions bordered size="small" class="seller-from" label-width="20%">
       <a-descriptions-item :span="3">
         <template slot="label">판매가 <span class="required">*</span></template>
-        <a-input placeholder="판매가" class="normal-size"/><br/>
+        <a-input placeholder="판매가" class="normal-size" suffix="원" /><br/>
       </a-descriptions-item>
       <a-descriptions-item label="할인정보" :span="3">
         <table class="bordered" style="width: 500px">
@@ -15,7 +15,7 @@
           </thead>
           <tbody>
           <tr>
-            <td><a-input/></td>
+            <td><a-input suffix="원" /></td>
             <td>0 원 <a-button type="primary">할인판매가적용</a-button></td>
           </tr>
           <tr>

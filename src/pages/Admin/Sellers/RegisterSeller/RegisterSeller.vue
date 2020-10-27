@@ -74,8 +74,7 @@ export default {
     scrollTab(tabNo) {
       let pageContents = this.$refs.pageContent
       let elTop = this.getOffset2(this.$refs.pageContent[0].$el).top
-      // console.log(this.getOffset2(pageContents[tabNo].$el).top, elTop)
-      document.body.scrollTop = this.getOffset2(pageContents[tabNo].$el).top - elTop
+      window.scrollTo({top: this.getOffset2(pageContents[tabNo].$el).top - elTop, behavior: 'smooth'})
     },
     getOffset( el ) {
       var _x = 0;
