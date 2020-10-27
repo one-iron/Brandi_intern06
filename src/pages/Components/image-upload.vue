@@ -61,6 +61,9 @@ export default {
 };
 </script>
 <style scoped>
+.avatar-uploader {
+  width: auto;
+}
 .avatar-uploader .ant-upload {
   width: 128px;
   height: 128px;
