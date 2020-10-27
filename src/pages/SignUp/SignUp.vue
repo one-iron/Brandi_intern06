@@ -119,7 +119,7 @@
         </div>
       </fieldset>
       <div class="button-container">
-        <bluebutton type="submit" v-on:submit="sendSubmit" word="신청" />
+        <bluebutton type="submit" v-on:submit="onSubmit" word="신청" />
         <div @click="alertWarn">
           <redbutton type="button" word="취소" />
         </div>
@@ -183,13 +183,11 @@ export default {
   methods: {
     //각 인풋창의 정규식을 이용한 체크, 인자로 해당 정규식과 data접근 경로를 써주면 된다.
     regCheck(reg, name) {
-      console.log(reg, name);
       name.state = reg.test(name.value);
     },
 
     //라디오 버튼에서 v-model이 안되는 버그가 발생하여, 임시로 값 변환 하는 함수
     change(value) {
-      console.log("value", value);
       this.infoInput.seller_property_id.value = value;
     },
 
@@ -225,24 +223,22 @@ export default {
         });
       }
     },
-
     sendSubmit(value) {
       console.log("보내기 직전", value);
       axios
-        .post("http://10.58.6.194:5000/signup", value)
-        .then(res => {
-          console.log("백엔드 응답", res.data);
-          if (res.status === 200) {
+        .post("http://192.168.7.25:5000/signup", value)
+
+        .then(response => {
+          console.log("res",response);
+          if (response.status === 200) {
             alert("회원가입을 축하합니다!");
             this.isLoading = false;
             this.$router.push("/");
           }
         })
-        .catch(err => {
-          if (err.response.data["MESSAGE"] === "DUPLICATED ID") {
-            this.isLoading = false;
-            this.serverID = this.infoInput.account;
-          }
+        .catch(error => {
+          console.log("err", error);
+          this.isLoading = true;
         });
     }
   }
@@ -281,6 +277,7 @@ input[type="password"] {
   border-radius: 5px;
   background-color: white;
   text-indent: 30px;
+  font-size: 13px;
 
   &:focus {
     outline: none;

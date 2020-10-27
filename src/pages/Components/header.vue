@@ -16,7 +16,7 @@
           v-if="mouseOn"
           @click="handleLogout"
         >
-          <a href="#">
+          <a href="/">
             <i class="fa fa-key" />
             <span>Log out</span>
           </a>
@@ -36,12 +36,6 @@ export default {
     };
   },
   methods: {
-    ...mapActions({
-      logout(dispatch) {
-        return dispatch("adminStore/logout");
-      }
-      //   this.$store.dispatch('store이름/actions이름')
-    }),
     setMouseOver() {
       this.mouseOn = true;
     },
@@ -54,8 +48,9 @@ export default {
       }
     },
     handleLogout() {
+      clear()
       this.logout();
-      this.$router.push("/admin/login");
+      this.$router.push("/");
     }
   }
 };
