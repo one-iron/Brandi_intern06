@@ -143,7 +143,7 @@ export default new Router({
             },
             // 주문관리 > 주문 상세페이지
             {
-              path: 'detail/:detailNo',
+              path: ':detailNo',
               name: 'Detail',
               component: DetailOrder
             },

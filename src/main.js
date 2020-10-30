@@ -13,8 +13,12 @@ const pluginOptions = {
   /* see config reference */
   globalOptions: { currency: { distractionFree: { hidecrrencySymbol: true } }, locale: 'en', precision: 0, }
 }
+import VueTheMask from 'vue-the-mask'
+// import VueMoney from 'v-money'
 
+// Vue.use(VueMoney, {precision: 0,  thousands: ','})
 
+Vue.use(VueTheMask)
 Vue.config.productionTip = false;
 Vue.use(Antd);
 Vue.use(VueCurrencyInput, pluginOptions);

@@ -1,6 +1,5 @@
 <template>
   <div>
-    here is orders
     <router-view />
   </div>
 </template>
