@@ -79,7 +79,8 @@ export default new Router({
             {
               path: ':sellerNo',
               name: 'ModifySeller',
-              component: RegisterSeller
+              component: RegisterSeller,
+              props: true
             },
           ]
         },

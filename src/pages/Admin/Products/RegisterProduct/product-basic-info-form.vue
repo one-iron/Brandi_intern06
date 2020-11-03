@@ -54,8 +54,8 @@
           <table class="bordered" v-show="data.gosiType == 2">
             <tbody>
             <tr>
-              <th>제조사(수입사)</th>
-              <td><a-input/></td>
+              <th width="150">제조사(수입사)</th>
+              <td><a-input class="normal-size"/></td>
             </tr>
             <tr>
               <th>제조일자</th>

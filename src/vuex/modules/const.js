@@ -17,29 +17,30 @@ export default {
         {label: '미판매', value: 'N'},
       ],
       sellerStatus: [
-        {label: '입점신청', value: 1},
+        {label: '입점대기', value: 1},
         {label: '입점', value: 2},
         {label: '휴점', value: 3},
         {label: '퇴점대기', value: 4},
         {label: '퇴점', value: 5},
         {label: '입점거절', value: 6},
       ],
+      // button - 입점거절:1 입점승인:2 휴점처리:3 휴점해제:4 퇴점대기:5 퇴점철회:6 퇴점확정:7
       sellerStatusActions: {
         1: [
           {label: '입점승인', value: 2, type: 'info'}
-          , {label: '입점거절', value: 6, type: 'danger'}
+          , {label: '입점거절', value: 1, type: 'danger'}
         ],
         2: [
-          {label: '휴점신청', value: 3, type: 'warning'}
-          , {label: '퇴점신청', value: 4, type: 'danger'}
+          {label: '휴점처리', value: 3, type: 'warning'}
+          , {label: '퇴점신청', value: 5, type: 'danger'}
         ],
         3: [
-          {label: '휴점해제', value: 2, type: 'success'}
-          , {label: '퇴점신청', value: 4, type: 'danger'}
+          {label: '휴점해제', value: 4, type: 'success'}
+          , {label: '퇴점신청', value: 5, type: 'danger'}
         ],
         4: [
-          {label: '퇴점해제', value: 2, type: 'info'}
-          , {label: '퇴점승인', value: 5, type: 'danger'}
+          {label: '퇴점해제', value: 6, type: 'info'}
+          , {label: '퇴점승인', value: 7, type: 'danger'}
         ]
       },
       exhibitTypes: [
@@ -63,6 +64,8 @@ export default {
           }
         }
       },
+      apiDomain: 'http://192.168.7.6:5000',
+      testToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZWxsZXJfaWQiOjUzLCJleHAiOjE2MDQzNjQ0ODV9.tklbLCaT7OMrvZlTMQA-3bPY3ySHvVNHp3NNur8h92Y'
     },
     getters: {
     },

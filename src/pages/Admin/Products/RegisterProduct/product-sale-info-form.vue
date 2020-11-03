@@ -68,9 +68,9 @@ export default {
       saleType: 1,
       managers: [
         {
-          managerName: "",
-          managerEmail: "",
-          managerPhoneNo: ""
+          name: "",
+          email: "",
+          phone_number: ""
         }
       ],
       data: {
@@ -85,9 +85,9 @@ export default {
     addManager() {
       if (this.managers.length < 3)
         this.managers.push({
-          managerName: "",
-          managerEmail: "",
-          managerPhoneNo: ""
+          name: "",
+          email: "",
+          phone_number: ""
         });
     },
     popManager() {

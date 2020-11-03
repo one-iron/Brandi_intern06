@@ -22,8 +22,15 @@ Vue.use(VueTheMask)
 Vue.config.productionTip = false;
 Vue.use(Antd);
 Vue.use(VueCurrencyInput, pluginOptions);
+
 Vue.filter("makeComma", val => {
   return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+})
+Vue.filter("emptyDash", val => {
+  if (val === undefined) return '-'
+  if (val === null) return '-'
+  if (val === '') return '-'
+  return val
 })
 /* eslint-disable no-new */
 new Vue({
