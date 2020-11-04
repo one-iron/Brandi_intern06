@@ -28,6 +28,13 @@ export default {
   components: {
     InfoText
   },
+  props: {
+    dataStore: {
+      default() {
+        return {}
+      }
+    }
+  },
   data() {
     return {
     }

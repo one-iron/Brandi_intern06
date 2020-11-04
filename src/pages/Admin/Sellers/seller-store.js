@@ -1,5 +1,4 @@
 import store from '../../../vuex/store'
-import axios from 'axios'
 import AdminApiMixin from '../../../mixins/admin/admin-api'
 import { Modal, Button, Space } from 'ant-design-vue';
 
@@ -155,42 +154,4 @@ export default {
         this.changePage(1)
       }
     }
-}
-
-
-function getTestValue() {
-  return {
-    "account": "testtest22222",
-    "address": null,
-    "background_image": null,
-    "brand_crm_end": null,
-    "brand_crm_number": "555-333-2222",
-    "brand_crm_open": null,
-    "brand_name_english": "watermelon",
-    "brand_name_korean": "\uc218\ubc15",
-    "delivery_information": null,
-    "detail_address": null,
-    "detail_introduce": null,
-    "id": 11,
-    "image": null,
-    "is_brand_crm_holiday": null,
-    "manager_information": [
-      {
-        "email": null,
-        "name": null,
-        "phone_number": "444-222-3333"
-      }
-    ],
-    "refund_exchange_information": null,
-    "seller_status_id": 1,
-    "simple_introduce": null,
-    "status_histories": [
-      {
-        "seller_status_id": 1,
-        "update_time": "2020-10-23 17:31:24"
-      }
-    ],
-    "zip_code": null
-  }
-
 }

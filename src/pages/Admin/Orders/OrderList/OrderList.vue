@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h2>주문 관리</h2>
-    <filter-box></filter-box>
+    <h2>주문 관리 <span class="small">{{menuName}}</span></h2>
+    <order-filter-box @search="search"/>
     <div class="divide">
       <a-select style="width: 100px; float:right; " v-model="dataStore.pageLen">
         <a-select-option :value="item.value" v-for="item in rowCounts" :key="item.value">{{ item.label }}</a-select-option>
       </a-select>
-      <div style="float:left; line-height: 32px;">주문관리 > 상품준비 관리 > 상품준비 리스트</div>
+      <div style="float:left; line-height: 32px;">주문관리 > {{menuName}} > 리스트</div>
       <div style="clear:both"></div>
     </div>
     <div class="table-header-buttons">
@@ -36,24 +36,37 @@
         <th>주문상태</th>
       </template>
       <template slot="row" slot-scope="{item}">
-        <td>{{ item.paymentDate }}</td> <!-- 결제일자 -->
-        <td>{{ item.orderCode }}</td> <!-- 주문번호 -->
-        <td><router-link :to="item.orderDetailCode">{{ item.orderDetailCode }}</router-link></td> <!-- 주문상세번호 -->
-        <td>{{ item.sellerName }}</td> <!-- 셀러명 -->
+        <!--
+        color_name: "Ivory"
+        count: 5
+        order_date: "2020-11-02 10:13:53"
+        order_detail_number: "20201102000007"
+        order_number: "2020110200007"
+        order_status_id: 1
+        phone_number: "010-8686-4444"
+        product_id: 39
+        product_name: "미니마조르 - 아이보리"
+        size_name: "free"
+        user_name: "김띵띵"
+        -->
+        <td>{{ item.order_date }}</td> <!-- 결제일자 -->
+        <td>{{ item.order_number }}</td> <!-- 주문번호 -->
+        <td><router-link :to="''+item.order_id">{{ item.order_detail_number }}</router-link></td> <!-- 주문상세번호 -->
+        <td>{{ item.brand_name_korean }}</td> <!-- 셀러명 -->
         <!--        <th>셀러구분</th>-->
         <!--        <th>헬피구분</th>-->
         <!--        <th>배송구분</th>-->
-        <td>{{ item.productName }}</td> <!-- 상품명 -->
-        <td>{{ item.option }}</td> <!-- 옵션정보 -->
+        <td>{{ item.product_name }}</td> <!-- 상품명 -->
+        <td>{{ item.color_name }} / {{ item.size_name }}</td> <!-- 옵션정보 -->
         <!--        <th>옵션추가금액</th>-->
-        <td>{{ item.quantity }}</td> <!-- 수량 -->
-        <td>{{ item.ordererName }}</td> <!-- 주문자명 -->
-        <td>{{ item.ordererTelno }}</td> <!-- 핸드폰번호 -->
-        <td>{{ item.paymentPrice }}</td> <!-- 결제금액 -->
+        <td>{{ item.count }}</td> <!-- 수량 -->
+        <td>{{ item.user_name }}</td> <!-- 주문자명 -->
+        <td>{{ item.phone_number }}</td> <!-- 핸드폰번호 -->
+        <td>{{ item.total_price | makeComma }}</td> <!-- 결제금액 -->
         <!--        <th>사용포인트</th>-->
         <!--        <th>쿠폰할인</th>-->
         <!--        <th>결제수단</th>-->
-        <td>{{ item.orderStatus }}</td> <!-- 주문상태 -->
+        <td>{{ item.order_status_id }}</td> <!-- 주문상태 -->
       </template>
     </board-list>
   </div>
@@ -61,16 +74,24 @@
 
 <script>
 import Vue from 'vue'
-import store from './product-store'
-import FilterBox from './filter-box'
+import store from '../order-store'
+import OrderFilterBox from './order-filter-box'
 import BoardList from '../../../Components/BoardList'
 
 export default {
   name: 'product-list',
-  components: {BoardList, FilterBox},
+  components: {BoardList, OrderFilterBox},
+  props: {
+    status_id: {
+      default() {
+        return 0
+      }
+    }
+  },
   data () {
     return {
       dataStore: new Vue(store),
+      menuName: '',
       rowCounts: [
         {label: '10개', value: 10},
         {label: '20개', value: 20},
@@ -81,14 +102,31 @@ export default {
     }
   },
   mounted () {
+    this.menuName = this.getSellerPropertyName(this.status_id)
+    // this.dataStore.setFilter()
   },
   methods: {
+    search(filter) {
+      filter = JSON.parse(JSON.stringify(filter))
+      filter.status_id = this.status_id
+      this.dataStore.page = 1
+      this.dataStore.setFilter(filter)
+      this.dataStore.load()
+    },
     // 상품 구매
     buyProduct(row) {
       console.log('상품 구매', row)
-    }
+    },
+    getSellerPropertyName(order_status_id) {
+      let statusItem = this.constants.orderStatusTypes.filter((d)=>{return d.value == order_status_id})
+      if (statusItem.length > 0) return statusItem[0].label
+      return ''
+    },
   },
   computed: {
+    constants() {
+      return this.$store.state.const
+    },
   }
 }
 </script>
@@ -108,5 +146,4 @@ export default {
 .discount-rate {
   color: red;
 }
-
 </style>

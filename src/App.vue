@@ -52,5 +52,9 @@ table.bordered th, table.bordered td{
   padding: 10px 15px;
   font-size: 13px;
 }
-
+h2 > span {
+  font-size: 14px;
+  font-weight: normal;
+  color: #999;
+}
 </style>

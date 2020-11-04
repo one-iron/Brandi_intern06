@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>상품 관리</h2>
-    <filter-box></filter-box>
+    <product-filter-box @search="search"/>
     <div class="divide">
       <a-select style="width: 100px; float:right; " v-model="dataStore.pageLen">
         <a-select-option :value="item.value" v-for="item in rowCounts" :key="item.value">{{ item.label }}</a-select-option>
@@ -31,18 +31,18 @@
         <th>Actions</th>
       </template>
       <template slot="row" slot-scope="{item}">
-        <td>{{ item.registDate }}</td> <!-- 등록일 -->
-        <td><img :src="item.imgUrl" width="70" height="70"></td> <!-- 대표이미지 -->
-        <td>{{ item.productName }}</td> <!-- 상품명 -->
-        <td><router-link :to="'products/'+item.productCode">{{ item.productCode }}</router-link></td> <!-- 상품코드 -->
-        <td>{{ item.productNo }}</td> <!-- 상품번호 -->
-        <td>{{ item.sellerType }}</td> <!-- 셀러속성 -->
-        <td>{{ item.sellerName }}</td> <!-- 셀러명 -->
-        <td>{{ item.salePrice | makeComma }}</td> <!-- 판매가 -->
-        <td>{{ item.discountPrice | makeComma }} <span class="discount-rate" v-if="item.discountRate > 0">({{ item.discountRate }}%)</span></td> <!-- 할인가 -->
-        <td>{{ item.saleYn }}</td> <!-- 판매여부 -->
-        <td>{{ item.exhibitYn }}</td> <!-- 진열여부 -->
-        <td>{{ item.discountYn }}</td> <!-- 할인여부 -->
+        <td>{{ item.created_at }}</td> <!-- 등록일 -->
+        <td><img :src="item.main_image" width="70" height="70"></td> <!-- 대표이미지 -->
+        <td>{{ item.name }}</td> <!-- 상품명 -->
+        <td><router-link :to="'products/'+item.product_id">{{ item.code_number }}</router-link></td> <!-- 상품코드 -->
+        <td>{{ item.product_id }}</td> <!-- 상품번호 -->
+        <td>{{ getSellerPropertyName(item.seller_property_id) }}</td> <!-- 셀러속성 -->
+        <td>{{ item.brand_name_korean }}</td> <!-- 셀러명 -->
+        <td>{{ item.price | makeComma }}</td> <!-- 판매가 -->
+        <td>{{ item.discount_price | makeComma }} <span class="discount-rate" v-if="item.discount_rate > 0">({{ item.discount_rate }}%)</span></td> <!-- 할인가 -->
+        <td>{{ getProductSaleTypeName(item.is_sell) }}</td> <!-- 판매여부 -->
+        <td>{{ getProductDisplayTypeName(item.is_display) }}</td> <!-- 진열여부 -->
+        <td>{{ getProductDiscountTypeName(item.is_discount) }}</td> <!-- 할인여부 -->
         <td>
           <a-button type="primary" size="small" @click="buyProduct(item)">구매하기</a-button>
         </td>
@@ -54,12 +54,12 @@
 <script>
 import Vue from 'vue'
 import store from './product-store'
-import FilterBox from './filter-box'
+import ProductFilterBox from './product-filter-box'
 import BoardList from '../../../Components/BoardList'
 
 export default {
   name: 'product-list',
-  components: {BoardList, FilterBox},
+  components: {BoardList, ProductFilterBox},
   data () {
     return {
       dataStore: new Vue(store),
@@ -73,12 +73,47 @@ export default {
   mounted () {
   },
   methods: {
+    search(filter) {
+      this.dataStore.page = 1
+      this.dataStore.setFilter(filter)
+      this.dataStore.load()
+    },
     // 상품 구매
     buyProduct(row) {
       console.log('상품 구매', row)
+    },
+    getSellerStatusName(status_id) {
+      let statusItem = this.constants.sellerStatus.filter((d)=>{return d.value == status_id})
+      if (statusItem.length > 0) return statusItem[0].label
+      return ''
+    },
+    getSellerPropertyName(property_id) {
+      let statusItem = this.constants.sellerSections.filter((d)=>{return d.value == property_id})
+      if (statusItem.length > 0) return statusItem[0].label
+      return ''
+    },
+    getProductSaleTypeName(sale_type) {
+      let statusItem = this.constants.saleTypes.filter((d)=>{return d.value == sale_type})
+      if (statusItem.length > 0) return statusItem[0].label
+      return ''
+    },
+    getProductDisplayTypeName(display_type) {
+      let statusItem = this.constants.exhibitTypes.filter((d)=>{return d.value == display_type})
+      if (statusItem.length > 0) return statusItem[0].label
+      return ''
+    },
+    getProductDiscountTypeName(discount_type) {
+      let statusItem = this.constants.discountTypes.filter((d)=>{return d.value == discount_type})
+      if (statusItem.length > 0) return statusItem[0].label
+      return ''
     }
+
+
   },
   computed: {
+    constants() {
+      return this.$store.state.const
+    }
   }
 }
 </script>

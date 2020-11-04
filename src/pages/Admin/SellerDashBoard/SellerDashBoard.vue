@@ -2,10 +2,10 @@
   <div>
     <a-row :gutter="16">
       <a-col :lg="8" :xs="24">
-        <a-card class="box">
+        <a-card class="box" :loading="dataStore.loading">
           <a-row class="row">
             <a-col :span="12" >상품 준비</a-col>
-            <a-col :span="12" class="text-right">5 건</a-col>
+            <a-col :span="12" class="text-right">{{dataStore.dashboardData.prepare_count}} 건</a-col>
           </a-row>
 <!--          <a-row>-->
 <!--            <a-col :span="12">배송 준비</a-col>-->
@@ -13,51 +13,52 @@
 <!--          </a-row>-->
           <a-row class="row">
             <a-col :span="12">배송 중</a-col>
-            <a-col :span="12" class="text-right">2 건</a-col>
+            <a-col :span="12" class="text-right">0 건</a-col>
           </a-row>
           <a-row class="row">
             <a-col :span="12">배송 완료</a-col>
-            <a-col :span="12" class="text-right">6 건</a-col>
+            <a-col :span="12" class="text-right">{{dataStore.dashboardData.complete_count}} 건</a-col>
           </a-row>
-<!--          <a-row>-->
-<!--            <a-col :span="12">구매 확정</a-col>-->
-<!--            <a-col :span="12" class="text-right">32 건</a-col>-->
-<!--          </a-row>-->
+          <a-row>
+            <a-col :span="12">구매 확정</a-col>
+            <a-col :span="12" class="text-right">0 건</a-col>
+          </a-row>
         </a-card>
       </a-col>
       <a-col :lg="8" :xs="24">
-        <a-card class="box">
+        <a-card class="box" :loading="dataStore.loading">
           <a-row class="row">
             <a-col :span="12">환불 요청</a-col>
-            <a-col :span="12" class="text-right">5 건</a-col>
+            <a-col :span="12" class="text-right">0 건</a-col>
           </a-row>
           <a-row class="row">
             <a-col :span="12">반품 진행</a-col>
-            <a-col :span="12" class="text-right">1 건</a-col>
+            <a-col :span="12" class="text-right">0 건</a-col>
           </a-row>
           <a-row class="row">
             <a-col :span="12">주문 취소중</a-col>
-            <a-col :span="12" class="text-right">2 건</a-col>
+            <a-col :span="12" class="text-right">0 건</a-col>
           </a-row>
           <a-row class="row">
             <a-col :span="12">환불 승인중</a-col>
-            <a-col :span="12" class="text-right">6 건</a-col>
+            <a-col :span="12" class="text-right">0 건</a-col>
           </a-row>
         </a-card>
       </a-col>
+
       <a-col :lg="8" :xs="24">
-        <a-card class="box">
+        <a-card class="box" :loading="dataStore.loading">
           <a-row class="row">
             <a-col :span="12">즐겨찾기 수</a-col>
-            <a-col :span="12" class="text-right">5 개</a-col>
+            <a-col :span="12" class="text-right">0 개</a-col>
           </a-row>
           <a-row class="row">
             <a-col :span="12">전체 상품 수</a-col>
-            <a-col :span="12" class="text-right">78 개</a-col>
+            <a-col :span="12" class="text-right">{{dataStore.dashboardData.total_count}} 개</a-col>
           </a-row>
           <a-row class="row">
             <a-col :span="12">노출 상품 수</a-col>
-            <a-col :span="12" class="text-right">50 개</a-col>
+            <a-col :span="12" class="text-right">{{dataStore.dashboardData.display_count}} 개</a-col>
           </a-row>
           <a-row class="row">
             <a-col :span="12">API연동 상품 수</a-col>
@@ -69,12 +70,12 @@
 
     <a-row :gutter="16" class="chart-row">
       <a-col :lg="12" :xs="24">
-        <a-card title="매출 통계 [최근 30일간의 결제완료된 주문 건수의 합계]" size="small" class="chart">
+        <a-card title="매출 통계 [최근 30일간의 결제완료된 주문 건수의 합계]" size="small" class="chart" :loading="dataStore.loading">
           <line-chart :chart-data="chartData1" :options="chartOptions" :style="{height: '270px', position: 'relative'}"></line-chart>
         </a-card>
       </a-col>
       <a-col :lg="12" :xs="24">
-        <a-card title=" 매출 통계 [최근 30일간의 결제완료된 주문 금액의 합계]" size="small" class="chart">
+        <a-card title=" 매출 통계 [최근 30일간의 결제완료된 주문 금액의 합계]" size="small" class="chart" :loading="dataStore.loading">
           <line-chart :chart-data="chartData2" :options="chartOptions" :style="{height: '270px', position: 'relative'}"></line-chart>
         </a-card>
       </a-col>
@@ -86,6 +87,8 @@
 <script>
 import LineChart from './line-chart'
 import moment from 'moment'
+import store from './dashboard-store'
+import Vue from 'vue'
 
 export default {
   components: {
@@ -108,6 +111,7 @@ export default {
   },
   data () {
     return {
+      dataStore: new Vue(store),
       chartData1: {
         labels: [],
         datasets: [

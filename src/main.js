@@ -24,6 +24,7 @@ Vue.use(Antd);
 Vue.use(VueCurrencyInput, pluginOptions);
 
 Vue.filter("makeComma", val => {
+  if (val === undefined) return '-'
   return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 })
 Vue.filter("emptyDash", val => {

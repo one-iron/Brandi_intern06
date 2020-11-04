@@ -36,15 +36,15 @@
         <a-col :span="2" class="filter-label">결제완료일</a-col>
         <a-col :span="10">
           <multi-select-buttons :multiple-select="false" :items="constants.orderDateFilter" v-model="status.orderDateFilter" :disabled="!status.needMoreFilter"/>
-          <a-range-picker @change="changeDatePicker" :placeholder="['시작일', '종료일']" v-model="filter.rangeDate" :disabled="!status.needMoreFilter"/>
+          <a-range-picker :placeholder="['시작일', '종료일']" v-model="filter.rangeDate" :disabled="!status.needMoreFilter"/>
         </a-col>
       </a-row>
-      <a-row :gutter="8" class="filter-row" :class="{'dont-need':!status.needMoreFilter}">
-        <a-col :span="2" class="filter-label">셀러속성</a-col>
-        <a-col :span="22">
-          <multi-select-buttons :items="constants.sellerSections" v-model="filter.sellerSection" :disabled="!status.needMoreFilter"/>
-        </a-col>
-      </a-row>
+<!--      <a-row :gutter="8" class="filter-row" :class="{'dont-need':!status.needMoreFilter}">-->
+<!--        <a-col :span="2" class="filter-label">셀러속성</a-col>-->
+<!--        <a-col :span="22">-->
+<!--          <multi-select-buttons :items="constants.sellerSections" v-model="filter.seller_property_id" :disabled="!status.needMoreFilter"/>-->
+<!--        </a-col>-->
+<!--      </a-row>-->
     </a-input-group>
     <div class="search-buttons">
       <a-button type="primary" size="large" @click="search">검색</a-button>
@@ -62,6 +62,7 @@ export default {
   components: {MultiSelectButtons},
   data() {
     return {
+      // 상단 라디오 필터 데이터가 여기에 모임
       filterTypes: [],
       status: {
         needMoreFilter: true, // 추가 조건이 필요한가
@@ -69,19 +70,14 @@ export default {
         orderDateFilter: [1],
       },
       filter: {
-        sellerSection: [],
-        saleType: [],
-        exhibitType: [],
         sellerName: '',
-        keywordType: '',
-        keywordValue: '',
         discountType: '',
         rangeDate: null
       },
       items: [
-        {label: '상품명', value: 'productName'},
-        {label: '상품코드', value: 'productCode'},
-        {label: '상품번호', value: 'productNo'},
+        {label: '상품명', value: 'product_name'},
+        {label: '상품코드', value: 'product_code'},
+        {label: '상품번호', value: 'product_id'},
       ]
     }
   },
@@ -105,44 +101,52 @@ export default {
     // 선택안함
     this.filterTypes.push({
       'typeNo': 0,
+      'keywordName': '',
       'keywordValue': '',
     })
     // 주문코드
     this.filterTypes.push({
       'typeNo': 1,
+      'keywordName': 'order_number',
       'keywordValue': '',
       'mask': this.constants.orderCodeMask
     })
     // 주문상세코드
     this.filterTypes.push({
       'typeNo': 2,
+      'keywordName': 'order_detail_number',
       'keywordValue': '',
       'mask': this.constants.orderCodeMask
     })
     // 주문자명
     this.filterTypes.push({
       'typeNo': 3,
+      'keywordName': 'user_name',
       'keywordValue': '',
     })
     // 핸드폰번호
     this.filterTypes.push({
       'typeNo': 4,
+      'keywordName': 'phone_number',
       'keywordValue': '',
       'mask': '###-####-####'
     })
     // 셀러명
     this.filterTypes.push({
       'typeNo': 5,
+      'keywordName': 'brand_name_korean',
       'keywordValue': '',
     })
-    // 한글명
+    // 상품명
     this.filterTypes.push({
       'typeNo': 6,
+      'keywordName': 'product_name',
       'keywordValue': '',
     })
 
   },
   mounted () {
+    this.search()
   },
   methods: {
     changeFilterType() {
@@ -152,10 +156,26 @@ export default {
       })
     },
     search() {
-      console.log('검색한다', this.filter)
+      let filter = this.getFilter()
+      this.$emit('search', filter)
     },
-    changeDatePicker(v) {
-      console.log(v)
+    getFilter() {
+      let filter = JSON.parse(JSON.stringify(this.filter))
+      if (this.filter.rangeDate && this.filter.rangeDate.length == 2) {
+        filter['start_date'] = this.filter.rangeDate[0].format('YYYY-MM-DD')
+        filter['end_date'] = this.filter.rangeDate[1].format('YYYY-MM-DD')
+      }
+      // radio 에서 설정된 키워드 정리
+      let activeKeyword = this.filterTypes[this.status.filterType]
+      if (activeKeyword) {
+        let name = activeKeyword.keywordName
+        let value = activeKeyword.keywordValue
+        if (name && value) {
+          filter[name] = value
+        }
+      }
+      delete filter['rangeDate']
+      return filter
     },
     resetFilter() {
       this.filter = JSON.parse(JSON.stringify(this.backupFilter))

@@ -2,21 +2,22 @@
   <div>
     <a-descriptions bordered size="small" class="seller-from" label-width="20%" :column="2">
       <a-descriptions-item label="회원번호">
-        3549984
+        -
       </a-descriptions-item>
       <a-descriptions-item label="주문자명">
-        김주희
+        {{ dataStore.detailData.user_name }}
       </a-descriptions-item>
 
       <a-descriptions-item label="수령자명">
-        김주희
+        {{ dataStore.detailData.user_name }}
       </a-descriptions-item>
       <a-descriptions-item label="연락처">
-        01036082138 <a-button type="danger" size="small">변경</a-button>
+        {{ dataStore.detailData.phone_number }}
+         <a-button type="danger" size="small">변경</a-button>
       </a-descriptions-item>
 
       <a-descriptions-item label="배송지">
-        서울 강남구 테헤란로32길 26  청송빌딩 1층    (06223)
+        {{ dataStore.detailData.address }} ({{ dataStore.detailData.zip_code }})
       </a-descriptions-item>
       <a-descriptions-item label="배송시 요청사항">
         일반배송 : 직접 받겠습니다
@@ -30,6 +31,13 @@
 <script>
 export default {
   components: {
+  },
+  props: {
+    dataStore: {
+      default() {
+        return {}
+      }
+    }
   },
   data() {
     return {

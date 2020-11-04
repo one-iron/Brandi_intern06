@@ -2,7 +2,7 @@
   <div>
     <a-descriptions bordered size="small" class="seller-from" label-width="20%" :column="2">
       <a-descriptions-item label="주문 상세 번호">
-        B2020102900023001
+        {{ dataStore.detailData.detail_number }}
       </a-descriptions-item>
       <a-descriptions-item label="주문 상태">
 
@@ -13,7 +13,7 @@
 
       </a-descriptions-item>
       <a-descriptions-item label="결제일시">
-        2020-10-29 15:48:47
+        {{ dataStore.detailData.order_date }}
       </a-descriptions-item>
 
       <a-descriptions-item label="정산예정일">
@@ -24,7 +24,7 @@
         0 원
       </a-descriptions-item>
       <a-descriptions-item label="연락처">
-        01036082138
+        {{ dataStore.detailData.phone_number }}
         <a-button type="danger">변경</a-button>
       </a-descriptions-item>
     </a-descriptions>
@@ -34,7 +34,15 @@
 
 <script>
 export default {
+  name: 'order-detail-info-form',
   components: {
+  },
+  props: {
+    dataStore: {
+      default() {
+        return {}
+      }
+    }
   },
   data() {
     return {

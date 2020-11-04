@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>셀러 계정 관리 </h2>
-    <seller-filter-box @search="search"></seller-filter-box>
+    <seller-filter-box @search="search"/>
     <div class="divide">
       <a-select style="width: 100px; float:right; " v-model="dataStore.pageLen">
         <a-select-option :value="item.value" v-for="item in rowCounts" :key="item.value">{{ item.label }}</a-select-option>

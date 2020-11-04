@@ -5,10 +5,10 @@
         네이버페이(신용카드)
       </a-descriptions-item>
       <a-descriptions-item label="주문 번호">
-        20201029000035000
+        {{ dataStore.detailData.number }}
       </a-descriptions-item>
       <a-descriptions-item label="주문 일시">
-        2020-10-29 15:48:47
+        {{ dataStore.detailData.order_date }}
       </a-descriptions-item>
 
       <a-descriptions-item label="외부거래번호">
@@ -19,7 +19,7 @@
       </a-descriptions-item>
 
       <a-descriptions-item label="총 결제 금액">
-        12,200 원
+        {{ dataStore.detailData.total_price | makeComma }} 원
       </a-descriptions-item>
       <a-descriptions-item label="배송비">
         0 원
@@ -39,6 +39,13 @@
 <script>
 export default {
   components: {
+  },
+  props: {
+    dataStore: {
+      default() {
+        return {}
+      }
+    }
   },
   data() {
     return {

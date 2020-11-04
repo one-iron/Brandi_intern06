@@ -2,8 +2,8 @@
   <div>
     <div class="fixed-header">
       <h2>주문 상세 관리
-        <a-button type="success" @click="working=true">저장하기</a-button>
-        <a-button type="normal" @click="working=false">취소</a-button>
+<!--        <a-button type="success" @click="working=true">저장하기</a-button>-->
+        <a-button type="normal" @click="cancel">취소</a-button>
         <a-spin spin v-show="working"/>
       </h2>
       <div class="divide">
@@ -16,48 +16,56 @@
           <a-tab-pane :key="2" tab="상품 정보" />
           <a-tab-pane :key="3" tab="수취자 정보" />
           <a-tab-pane :key="4" tab="주문상태 변경 정보" />
-          <a-tab-pane :key="5" tab="CS 정보" />
+<!--          <a-tab-pane :key="5" tab="CS 정보" />-->
         </a-tabs>
       </div>
     </div>
     <a-page-header title="주문 정보" key="0" sub-title="기본 정보" class="page-content" v-multi-ref:pageContent>
-      <order-info-form></order-info-form>
+      <order-info-form :data-store="dataStore"/>
     </a-page-header>
     <a-page-header title="주문 상세 정보" key="1" class="page-content" v-multi-ref:pageContent>
-      <order-detail-info-form></order-detail-info-form>
+      <order-detail-info-form :data-store="dataStore"/>
     </a-page-header>
     <a-page-header title="상품 정보" key="2" class="page-content" v-multi-ref:pageContent>
-      <order-product-info-form></order-product-info-form>
+      <order-product-info-form :data-store="dataStore"/>
     </a-page-header>
     <a-page-header title="수취자 정보" key="3" class="page-content" v-multi-ref:pageContent>
-      <order-delivery-info-form></order-delivery-info-form>
+      <order-delivery-info-form :data-store="dataStore"/>
     </a-page-header>
     <a-page-header title="주문상태 변경 정보" key="4" class="page-content" v-multi-ref:pageContent>
-      <order-history-info-form></order-history-info-form>
+      <order-history-info-form :data-store="dataStore"/>
     </a-page-header>
-    <a-page-header title="CS 정보" key="5" class="page-content" v-multi-ref:pageContent>
-      <order-cs-info-form></order-cs-info-form>
-    </a-page-header>
-
+<!--    <a-page-header title="CS 정보" key="5" class="page-content" v-multi-ref:pageContent>-->
+<!--      <order-cs-info-form :data-store="dataStore"/>-->
+<!--    </a-page-header>-->
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import OrderInfoForm from './order-info-form'
 import OrderDetailInfoForm from './order-detail-info-form'
 import OrderProductInfoForm from './order-product-info-form'
 import OrderDeliveryInfoForm from './order-delivery-info-form'
 import OrderHistoryInfoForm from './order-history-info-form'
 import OrderCsInfoForm from './order-cs-info-form'
-
 import 'vue-multi-ref'
+import store from '../order-store'
 
 export default {
   name: 'register-seller',
   data() {
     return {
+      dataStore: new Vue(store),
       tabNo: 0,
       working: false
+    }
+  },
+  props: {
+    detailNo: {
+      default() {
+        return 0
+      }
     }
   },
   components: {
@@ -69,12 +77,16 @@ export default {
     OrderCsInfoForm
   },
   mounted () {
+    this.dataStore.getDetail(this.detailNo)
     document.addEventListener('scroll', this.scrollEvent)
   },
   destroyed () {
     document.removeEventListener('scroll', this.scrollEvent)
   },
   methods: {
+    cancel() {
+      this.$router.go(-1)
+    },
     scrollEvent(event) {
       let pageContents = this.$refs.pageContent
       let len = pageContents.length
@@ -116,6 +128,9 @@ export default {
       }
       return { top: _y, left: _x };
     }
+  },
+  constants() {
+    return this.$store.state.const
   },
   watch: {
     tabNo(v) {
