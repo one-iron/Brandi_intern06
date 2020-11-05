@@ -31,12 +31,12 @@
           <tr>
             <td>
               <a-select style="width: 100%">
-                <a-select-option :value="item.value" v-for="item in firstCategory">{{ item.text }}</a-select-option>
+                <a-select-option :value="item.value" v-for="item in firstCategory" :key="item.value">{{ item.text }}</a-select-option>
               </a-select>
             </td>
             <td>
               <a-select style="width: 100%">
-                <a-select-option :value="item.value" v-for="item in secondCategory">{{ item.text }}</a-select-option>
+                <a-select-option :value="item.value" v-for="item in secondCategory" :key="item.value">{{ item.text }}</a-select-option>
               </a-select>
             </td>
             <td><a-button type="normal">-</a-button></td>
