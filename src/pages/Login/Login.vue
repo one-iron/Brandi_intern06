@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Message from '../../utils/message'
 import CommonMixin from '../../mixins/admin/common-mixin'
 import AdminApiMixin from '../../mixins/admin/admin-api'
@@ -50,7 +51,7 @@ export default {
     //token 물어보기
     sendSumbit() {
       axios
-        .post(this.constants.apiDomain+"/signup", {
+        .post(this.constants.apiDomain+"/login", {
           account: this.account,
           password: this.password
         })
@@ -61,7 +62,7 @@ export default {
           }
         })
         .then(() => {
-          this.$router.push("/admin");
+          this.$router.push("/admin/sellerdashboard");
         })
         .catch(err => {
           console.log(err.response);
