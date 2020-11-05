@@ -20,6 +20,9 @@
             />
           </div>
         </div>
+        <div v-if="!infoInput.account.state && infoInput.account.value.length === 0" class="error">필수 입력항목입니다.</div>
+        <div v-if="!infoInput.account.state && infoInput.account.value.length !== 0 && infoInput.account.value.length < 5" class="error">아이디의 최소 길이는 5글자입니다.</div>
+        <div v-if="!infoInput.account.state && infoInput.account.value.length > 5" class="error">아이디는 5~20글자의 영문, 숫자, 언더바, 하이픈만 사용 가능하며 시작 문자는 영문 또는 숫자입니다.</div>
         <div class="input-container">
           <i class="fa fa-lock"></i>
           <div name="비밀번호">
@@ -229,7 +232,7 @@ export default {
         .post("http://192.168.7.25:5000/signup", value)
 
         .then(response => {
-          console.log("res",response);
+          console.log("res", response);
           if (response.status === 200) {
             alert("회원가입을 축하합니다!");
             this.isLoading = false;
@@ -307,6 +310,11 @@ input[type="password"] {
     height: 1px;
     margin-bottom: 20px;
     background-color: $midgrey;
+  }
+  .error {
+    font-size: 13px;
+    align-self: self-start;
+    color: #a94442;
   }
 
   .input-container {
@@ -390,10 +398,10 @@ input[type="password"] {
   }
 
   .errorInput {
-    border: 1px solid red;
+    border: 1px solid #a94442;;
 
     &:focus {
-      border: 1px solid red;
+      border: 1px solid #a94442;;
     }
   }
 }
