@@ -249,7 +249,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../styles/_reset.scss";
+//@import "../../styles/_reset.scss";
 @import "../../styles/commonD.scss";
 
 h1 {

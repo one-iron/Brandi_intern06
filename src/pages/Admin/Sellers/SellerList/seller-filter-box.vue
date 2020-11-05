@@ -9,7 +9,7 @@
       </a-row>
       <a-row :gutter="8" class="filter-row">
         <a-col :span="2" class="filter-label">셀러한글명</a-col>
-        <a-col :span="7"><a-input-search placeholder="검색어를 입력해주세요." v-model="filter.sellerName"/></a-col>
+        <a-col :span="7"><a-input-search placeholder="검색어를 입력해주세요." v-model="filter.brand_name_korean"/></a-col>
         <a-col :span="8">
           <a-input-group compact>
             <a-select v-model="filter.keywordType">
@@ -23,13 +23,13 @@
       <a-row :gutter="8" class="filter-row">
         <a-col :span="2" class="filter-label">셀러속성</a-col>
         <a-col :span="22">
-          <multi-select-buttons :items="constants.sellerSections" v-model="filter.seller_property_id"/>
+          <multi-select-buttons :multiple-select="false" :items="constants.sellerSections" v-model="filter.property_id"/>
         </a-col>
       </a-row>
       <a-row :gutter="8" class="filter-row">
         <a-col :span="2" class="filter-label">셀러상태</a-col>
         <a-col :span="22">
-          <multi-select-buttons :multiple-select="false" :items="constants.sellerStatus" v-model="filter.seller_status_id"/>
+          <multi-select-buttons :multiple-select="false" :items="constants.sellerStatus" v-model="filter.status_id"/>
         </a-col>
       </a-row>
     </a-input-group>
@@ -44,20 +44,33 @@
 import MultiSelectButtons from '../../../Components/multi-select-buttons'
 
 export default {
-  name: "filter-box",
+  name: "seller-filter-box",
   components: {MultiSelectButtons},
   data() {
+     /*
+      number  : 번호(id)
+      account  : 계정
+      brand_name_korean  :  브랜드한글명
+      brand_name_english  :  브랜드영어명
+      manager_name  :  담당자이름
+      manager_number  :  담당자번호
+      manager_email   :   담당자이메일
+      status_id   :  입점상태id (입점, 휴점, …)
+      property_id  :  셀러속성id  ( 로드샵, 마켓 …)
+      start_date  :  시작일자
+      end_date   :   마지막일자
+       */
     return {
       filter: {
-        seller_property_id: [],
-        seller_status_id: [],
+        property_id: [],
+        status_id: [],
         brand_name_korean: '',
         keywordType: '',
         keywordValue: '',
-        created_at: null
+        rangeDate: null
       },
       items: [
-        {label: '셀러번호', value: 'id'},
+        {label: '셀러번호', value: 'number'},
         {label: '셀러아이디', value: 'account'},
         {label: '셀러영문명', value: 'brand_name_english'},
         {label: '담당자이름', value: 'brand_name_korean'},
@@ -79,14 +92,34 @@ export default {
   },
   methods: {
     search() {
-      console.log('검색한다', this.filter)
-      this.$emit('search', this.filter)
+      let filter = this.getFilter()
+      this.$emit('search', filter)
     },
     changeDatePicker(v) {
-      console.log(v)
+    },
+    getFilter() {
+      let filter = JSON.parse(JSON.stringify(this.filter))
+      if (filter['keywordType'] && filter['keywordValue']) {
+        filter[filter['keywordType']] = filter['keywordValue']
+      }
+      if (this.filter.rangeDate && this.filter.rangeDate.length == 2) {
+        filter['start_date'] = this.filter.rangeDate[0].format('YYYY-MM-DD')
+        filter['end_date'] = this.filter.rangeDate[1].format('YYYY-MM-DD')
+      }
+      if (filter['status_id'].length > 0) {
+        filter['status_id'] = filter['status_id'][0]
+      }
+      if (filter['property_id'].length > 0) {
+        filter['property_id'] = filter['property_id'][0]
+      }
+      delete filter['keywordType']
+      delete filter['keywordValue']
+      delete filter['rangeDate']
+      return filter
     },
     resetFilter() {
       this.filter = JSON.parse(JSON.stringify(this.backupFilter))
+      this.search()
     }
   }
 }

@@ -79,9 +79,9 @@
               </a-select>
             </td>
             <td>
-              <a-radio-group>
+              <a-radio-group v-model="item.inventoryYn">
                 <a-radio :value="1">재고관리 안함</a-radio>
-                <a-radio :value="2"><a-input style="width: 150px" suffix="개" /></a-radio>
+                <a-radio :value="2"><a-input style="width: 150px" suffix="개" :disabled="item.inventoryYn == 1" /></a-radio>
               </a-radio-group>
             </td>
             <td><a-button type="danger" @click="popOption(index)">-</a-button></td>
@@ -161,6 +161,7 @@ export default {
           optionList.push({
             'colorId': this.data.colors[i].colorId,
             'sizeId': this.data.sizes[z].sizeId,
+            'inventoryYn': 1
           })
         }
       }
@@ -177,9 +178,6 @@ export default {
 .normal-size {
   width: 200px;
 }
-.required {
-  color: red
-}
 table.bordered th {
   background: #fafafa;
 }
@@ -189,6 +187,6 @@ table.bordered th, table.bordered td{
   font-size: 13px;
 }
 .apply-buttons {
-  margin: 5px 0;
+  margin: 5px 5px;
 }
 </style>

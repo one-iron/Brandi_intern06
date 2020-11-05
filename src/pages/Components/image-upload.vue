@@ -4,8 +4,9 @@
     list-type="picture-card"
     class="avatar-uploader"
     :show-upload-list="false"
-    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+    action="file"
     :before-upload="beforeUpload"
+    :preview-file="previewFile"
     @change="handleChange"
   >
     <img v-if="imageUrl" :src="imageUrl" alt="uploadImage" class="ant-upload" />
@@ -32,6 +33,16 @@ export default {
       imageUrl: '',
     };
   },
+  props: {
+    value: {
+      default() {
+        return ''
+      }
+    }
+  },
+  mounted () {
+    this.imageUrl = this.value
+  },
   methods: {
     handleChange(info) {
       if (info.file.status === 'uploading') {
@@ -50,14 +61,31 @@ export default {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
       if (!isJpgOrPng) {
         this.$message.error('You can only upload JPG file!');
+        return false
       }
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
         this.$message.error('Image must smaller than 2MB!');
+        return false
       }
-      return isJpgOrPng && isLt2M;
+
+      // 일단 모두 취소 시킴 (preview가 목적)
+      getBase64(file, imageUrl => {
+        this.imageUrl = imageUrl;
+        this.$emit('input', file)
+      });
+      return false
     },
+    previewFile(file) {
+      console.log(file)
+    }
   },
+  watch: {
+    value(v) {
+      if (typeof(v) == 'string')
+          this.imageUrl = v
+    }
+  }
 };
 </script>
 <style scoped>

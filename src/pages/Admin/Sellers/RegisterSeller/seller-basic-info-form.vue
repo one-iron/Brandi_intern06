@@ -5,23 +5,21 @@
         <template slot="label">
           셀러 프로필 <span class="required">*</span>
         </template>
-        <image-upload />
+        <image-upload v-model="dataStore.detailData.image" />
       </a-descriptions-item>
       <a-descriptions-item label="셀러 상태" :span="3">
-        입점
+        {{ getSellerStatusName(dataStore.detailData.seller_status_id) }}
       </a-descriptions-item>
       <a-descriptions-item label="셀러 속성" :span="3">
-        <a-radio-group v-model="filter.seller_property_id">
-          <a-radio :value="1">쇼핑몰</a-radio>
-          <a-radio :value="2">마켓</a-radio>
-          <a-radio :value="3">로드샵</a-radio>
+        <a-radio-group v-model="dataStore.detailData.seller_property_id">
+          <a-radio v-for="item in constants.sellerSections" :value="item.value">{{ item.label }}</a-radio>
         </a-radio-group>
       </a-descriptions-item>
       <a-descriptions-item label="셀러 한글명" :span="3">
-        <a-input placeholder="셀러 한글명" class="normal-size" v-model="filter.brand_name_korean" />
+        <a-input placeholder="셀러 한글명" class="normal-size" v-model="dataStore.detailData.brand_name_korean" />
       </a-descriptions-item>
       <a-descriptions-item label="셀러 영문명" :span="3">
-        <a-input placeholder="셀러 영문명" class="normal-size" v-model="filter.brand_name_english" />
+        <a-input placeholder="셀러 영문명" class="normal-size" v-model="dataStore.detailData.brand_name_english" />
       </a-descriptions-item>
     </a-descriptions>
   </div>
@@ -33,6 +31,13 @@ export default {
   components: {
     ImageUpload
   },
+  props: {
+    dataStore: {
+      default() {
+        return {}
+      }
+    }
+  },
   data() {
     return {
       filter: {
@@ -40,6 +45,11 @@ export default {
         brand_name_english: '',
         brand_name_korean: ''
       },
+    }
+  },
+  computed: {
+    constants() {
+      return this.$store.state.const
     }
   },
   methods: {
@@ -51,7 +61,13 @@ export default {
     },
     validate() {
       return true
-    }
+    },
+    getSellerStatusName(status_id) {
+      let statusItem = this.constants.sellerStatus.filter((d)=>{return d.value == status_id})
+      if (statusItem.length > 0) return statusItem[0].label
+      return ''
+    },
+
   }
 }
 </script>

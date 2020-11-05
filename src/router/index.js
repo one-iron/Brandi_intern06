@@ -15,10 +15,7 @@ import ProductList from '../pages/Admin/Products/ProductList/ProductList'
 import RegisterProduct from '../pages/Admin/Products/RegisterProduct/RegisterProduct'
 
 import Orders from '../pages/Admin/Orders/Orders'
-import ArriveProduct from '../pages/Admin/Orders/ArriveProduct/ArriveProduct'
-import ConfirmProduct from '../pages/Admin/Orders/ConfirmProduct/ConfirmProduct'
-import DeliverProduct from '../pages/Admin/Orders/DeliverProduct/DeliverProduct'
-import ReadyProduct from '../pages/Admin/Orders/ReadyProduct/ReadyProduct'
+import OrderList from '../pages/Admin/Orders/OrderList/OrderList'
 import DetailOrder from '../pages/Admin/Orders/DetailOrder/DetailOrder'
 
 
@@ -79,7 +76,8 @@ export default new Router({
             {
               path: ':sellerNo',
               name: 'ModifySeller',
-              component: RegisterSeller
+              component: RegisterSeller,
+              props: true
             },
           ]
         },
@@ -121,31 +119,36 @@ export default new Router({
             {
               path: 'readyproduct',
               name: 'Readyproduct',
-              component: ReadyProduct
+              props: (route) => ({ status_id: 1 }),
+              component: OrderList
             },
             // 주문관리 > 배송중 관리
             {
               path: 'deliverproduct',
               name: 'DeliverProduct',
-              component: DeliverProduct
+              props: (route) => ({ status_id: 2 }),
+              component: OrderList
             },
             // 주문관리 > 배송완료 관리
             {
               path: 'arriveproduct',
               name: 'ArriveProduct',
-              component: ArriveProduct,
+              props: (route) => ({ status_id: 3 }),
+              component: OrderList,
             },
             // 주문관리 > 구매확정 관리
             {
               path: 'confirmProduct',
               name: 'ConfirmProduct',
-              component: ConfirmProduct
+              props: (route) => ({ status_id: 4 }),
+              component: OrderList
             },
             // 주문관리 > 주문 상세페이지
             {
-              path: 'detail/:detailNo',
+              path: ':detailNo',
               name: 'Detail',
-              component: DetailOrder
+              component: DetailOrder,
+              props: true
             },
           ]
         },

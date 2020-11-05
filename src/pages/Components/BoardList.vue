@@ -16,6 +16,9 @@
           <td><a-checkbox v-model="item.checked"/></td>
           <slot name="row" :item="item"></slot>
         </tr>
+        <tr v-show="!dataStore.list || dataStore.list.length == 0">
+          <td colspan="300" class="text-center">데이터가 없습니다.</td>
+        </tr>
         </tbody>
       </table>
     </div>
@@ -165,6 +168,9 @@ td>img {
 .papenation {
   text-align: center;
   margin: 5px auto;
+}
+.text-center {
+  text-align: center;
 }
 
 </style>
