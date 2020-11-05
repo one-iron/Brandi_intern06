@@ -50,6 +50,9 @@
         </td>
       </template>
     </board-list>
+    <order-modal
+       ref="orderModal"
+    />
   </div>
 </template>
 
@@ -59,11 +62,15 @@ import store from './product-store'
 import ProductFilterBox from './product-filter-box'
 import BoardList from '../../../Components/BoardList'
 import CommonMixin from '../../../../mixins/admin/common-mixin'
+import Message from '../../../../utils/message'
+import errors from '../../../../errors/errors'
+import OrderModal from './order-modal'
+const ExpireTokenException = errors.ExpireTokenException
 
 export default {
   name: 'product-list',
   mixins: [CommonMixin],
-  components: {BoardList, ProductFilterBox},
+  components: {BoardList, ProductFilterBox, OrderModal},
   data () {
     return {
       dataStore: new Vue(store),
@@ -81,10 +88,22 @@ export default {
       this.dataStore.page = 1
       this.dataStore.setFilter(filter)
       this.dataStore.load()
+        .then((res)=>{})
+        .catch((e)=>{
+          // 토큰 만료 처리
+          if (e instanceof ExpireTokenException) {
+            Message.error(e.message, ()=>{
+              this.$router.push('/')
+            })
+          } else {
+            Message.error(e.message)
+          }
+        })
     },
     // 상품 구매
     buyProduct(row) {
       console.log('상품 구매', row)
+      this.$refs.orderModal.show(row)
     },
   },
   computed: {

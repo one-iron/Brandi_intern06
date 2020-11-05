@@ -84,6 +84,7 @@ export default {
     this.backupFilter = JSON.parse(JSON.stringify(this.filter))
   },
   mounted () {
+    this.search()
   },
   methods: {
     search() {

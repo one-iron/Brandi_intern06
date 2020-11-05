@@ -1,6 +1,7 @@
 import AdminApiMixin from '../../../../mixins/admin/admin-api'
 import CommonMixin from '../../../../mixins/admin/common-mixin'
-import Message from '../../../../utils/message'
+import errors from '../../../../errors/errors'
+let ExpireTokenException = errors.ExpireTokenException
 
 export default {
     mixins: [AdminApiMixin, CommonMixin],
@@ -22,7 +23,7 @@ export default {
         }
     },
     created() {
-        this.load();
+        // this.load();
     },
     computed: {
         maxPage() {
@@ -43,17 +44,22 @@ export default {
             params['limit'] = this.pageLen
             params['offset'] = this.offset
 
-            // 아래는 테스트 코드
-            // new Promise((resolve)=>{
-            //     setTimeout(()=>{
-            //         resolve(listMockup())
-            //     }, 300)
-            // })
-            // 실제 연동은 아래
-            const thisClass = this
-            this.get(this.listUrl, {
-                params: params
-            })
+            return new Promise((resolve, reject) => {
+                // 아래는 테스트 코드
+                // new Promise((_resolve, _reject)=>{
+                //     setTimeout(()=>{
+                //         _reject(tokenExpireMockup())
+                //     }, 300)
+                // })
+                // new Promise((resolve, reject)=>{
+                //     setTimeout(()=>{
+                //         resolve(listMockup())
+                //     }, 300)
+                // })
+                // 실제 연동은 아래
+                this.get(this.listUrl, {
+                    params: params
+                })
                 .then((res)=>{
                     if (res.data && res.data.total_count !== undefined) {
                         res.data.product_list.forEach((d)=> {
@@ -63,24 +69,23 @@ export default {
                         let total_count = res.data.total_count
                         this.total = total_count
                         this.list = product_list
+                        resolve()
                     } else {
-                        Message.error('통신 실패')
+                        reject('통신 실패')
                     }
                 }).catch((e)=>{
                     // TODO 타임아웃 처리를 공통으로 할 수 있을까?
                     if (e.code === 'ECONNABORTED') {
-                        Message.error('요청 시간을 초과 하였습니다. 다시 시도해주시기 바랍니다.')
+                        reject('요청 시간을 초과 하였습니다. 다시 시도해주시기 바랍니다.')
                     } else if (e.response && e.response.data.message == 'INVALID TOKEN') {
-                        Message.error('로그인이 만료 되었습니다. 다시 로그인 해주세요.', ()=>{
-                            debugger
-                            thisClass.router.push('/login')
-                        })
+                        reject(new ExpireTokenException('로그인이 만료 되었습니다. 다시 로그인 해주세요.'))
                     } else {
-                        Message.error('처리 중 오류 발생')
+                        reject('처리 중 오류 발생')
                     }
                 }).then((res)=> {
                     this.loading = false
                 })
+            })
         },
         changePage(page) {
             this.page = page;
@@ -97,7 +102,9 @@ export default {
     }
 }
 
-
+function tokenExpireMockup() {
+    return {response: {data: {message: 'INVALID TOKEN'}}}
+}
 function listMockup() {
     return {data:{
         "product_list": [
