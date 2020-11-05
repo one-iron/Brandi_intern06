@@ -12,7 +12,7 @@
       </a-descriptions-item>
       <a-descriptions-item label="셀러 속성" :span="3">
         <a-radio-group v-model="dataStore.detailData.seller_property_id">
-          <a-radio v-for="item in constants.sellerSections" :value="item.value">{{ item.label }}</a-radio>
+          <a-radio v-for="item in constants.sellerSections" :value="item.value" :key="item.value">{{ item.label }}</a-radio>
         </a-radio-group>
       </a-descriptions-item>
       <a-descriptions-item label="셀러 한글명" :span="3">

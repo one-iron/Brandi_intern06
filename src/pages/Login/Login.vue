@@ -3,7 +3,7 @@
     <div class="loginBox">
       <h2>브랜디 어드민 로그인</h2>
       <input type="text" v-model="account" />
-      <input type="text" v-model="password" />
+      <input type="password" v-model="password" />
       <div class="option">
         <div class="left">
           <input type="checkbox" />
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Message from '../../utils/message'
 import CommonMixin from '../../mixins/admin/common-mixin'
 import AdminApiMixin from '../../mixins/admin/admin-api'
@@ -50,18 +51,18 @@ export default {
     //token 물어보기
     sendSumbit() {
       axios
-        .post(this.constants.apiDomain+"/signup", {
+        .post(this.constants.apiDomain+"/login", {
           account: this.account,
           password: this.password
         })
-        .then(res => {
-          console.log(res.data);
-          if (res.data.access_token) {
-            localStorage.setItem("access_token", res.data.access_token);
+        .then(response => {
+          console.log("response",response);
+          if (response.data.access_token) {
+            localStorage.setItem("access_token", response.data.access_token);
           }
         })
         .then(() => {
-          this.$router.push("/");
+          this.$router.push("/admin/sellerdashboard");
         })
         .catch(err => {
           console.log(err.response);
@@ -115,7 +116,7 @@ export default {
       }
     }
 
-    input[type="text"] {
+    input[type="text"],input[type="password"] {
       margin-bottom: 7px;
       border: 1px solid lightgrey;
       border-radius: 8px;
