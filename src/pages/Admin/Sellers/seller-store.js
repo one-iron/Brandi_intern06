@@ -1,6 +1,6 @@
 import store from '../../../vuex/store'
 import AdminApiMixin from '../../../mixins/admin/admin-api'
-import { Modal, Button, Space } from 'ant-design-vue';
+import Message from '../../../utils/message'
 
 export default {
     store: store,
@@ -45,18 +45,21 @@ export default {
             })
                 .then((res)=>{
                     if (res.data) {
+                        res.data.seller_list.forEach((d)=> {
+                            d.checked = false
+                        })
                         let seller_list = res.data.seller_list
                         let total_count = res.data.total_count
                         this.total = total_count
                         this.list = seller_list
                     } else {
-                        alert('통신 실패')
+                        Message.error('통신 실패')
                     }
                 }).catch((e)=>{
                     if (e.code === 'ECONNABORTED') {
-                        alert('요청 시간을 초과 하였습니다. 다시 시도해주시기 바랍니다.')
+                        Message.error('요청 시간을 초과 하였습니다. 다시 시도해주시기 바랍니다.')
                     } else {
-                        alert('처리 중 오류 발생')
+                        Message.errors('처리 중 오류 발생')
                     }
                 }).then((res)=> {
                     this.loading = false
@@ -71,14 +74,10 @@ export default {
             this.put(this.listUrl, params)
                 .then((res) => {
                     if (res.data && res.data.message == 'success') {
-                        Modal.success({
-                          content: '셀러 상태 변경 성공',
-                        })
+                        Message.success('셀러 상태 변경 성공')
                         this.load()
                     } else {
-                        Modal.error({
-                          content: '통신 실패',
-                        })
+                        Message.success('통신 실패')
                     }
                 })
                 .catch((e)=>{
@@ -102,13 +101,13 @@ export default {
                     if (res.data) {
                         this.detailData = res.data
                     } else {
-                        alert('통신 실패')
+                        Message.error('통신 실패')
                     }
                 }).catch((e)=>{
                     if (e.code === 'ECONNABORTED') {
-                        alert('요청 시간을 초과 하였습니다. 다시 시도해주시기 바랍니다.')
+                        Message.error('요청 시간을 초과 하였습니다. 다시 시도해주시기 바랍니다.')
                     } else {
-                        alert('처리 중 오류 발생')
+                        Message.error('처리 중 오류 발생')
                     }
                 }).then((res)=> {
                     this.loading = false
@@ -119,23 +118,15 @@ export default {
             this.put(this.listUrl+'/'+seller_id, sellerData)
                 .then((res)=>{
                     if (res.data && res.data.message == 'success') {
-                      Modal.success({
-                        content: '셀러 수정 성공',
-                      })
+                        Message.success('셀러 수정 성공')
                     } else {
-                      Modal.error({
-                        content: '통신 실패',
-                      })
+                      Message.error('통신 실패')
                     }
                 }).catch((e)=>{
                     if (e.code === 'ECONNABORTED') {
-                      Modal.error({
-                        content: '요청 시간을 초과 하였습니다. 다시 시도해주시기 바랍니다.',
-                      })
+                        Message.error('요청 시간을 초과 하였습니다. 다시 시도해주시기 바랍니다.')
                     } else {
-                      Modal.error({
-                        content: '처리 중 오류 발생',
-                      })
+                        Message.error('처리 중 오류 발생')
                     }
                 }).then((res)=> {
                     this.loading = false

@@ -23,7 +23,13 @@
 </template>
 
 <script>
+import Message from '../../utils/message'
+import CommonMixin from '../../mixins/admin/common-mixin'
+import AdminApiMixin from '../../mixins/admin/admin-api'
+
 export default {
+  name: 'login',
+  mixins: [AdminApiMixin, CommonMixin],
   data() {
     return {
       account: "",
@@ -44,7 +50,7 @@ export default {
     //token 물어보기
     sendSumbit() {
       axios
-        .post("http://10.58.6.194:5000/signup", {
+        .post(this.constants.apiDomain+"/signup", {
           account: this.account,
           password: this.password
         })
@@ -60,7 +66,7 @@ export default {
         .catch(err => {
           console.log(err.response);
           console.log(err.response.message);
-          alert("로그인에 실패하였습니다.");
+          Message.error("로그인에 실패하였습니다.");
         });
     }
   }

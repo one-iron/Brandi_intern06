@@ -1,6 +1,6 @@
 import AdminApiMixin from '../../../mixins/admin/admin-api'
 import store from '../../../vuex/store'
-import { Modal, Button, Space } from 'ant-design-vue';
+import Message from '../../../utils/message'
 
 export default {
     store: store,
@@ -49,28 +49,23 @@ export default {
             })
                 .then((res)=>{
                     if (res.data && res.data.total_count !== undefined) {
-                        let order_list = res.data.order_list
-                        let total_count = res.data.total_count
-                        this.total = total_count
-                        this.list = order_list
-                    } else {
-                        Modal.error({
-                            content: '통신 실패',
+                        res.data.order_list.forEach((d)=> {
+                            d.checked = false
                         })
+                        this.total = res.data.total_count
+                        this.list = res.data.order_list
+                    } else {
+                        Message.error('통신 실패')
                     }
                 }).catch((e)=>{
-                if (e.code === 'ECONNABORTED') {
-                    Modal.error({
-                        content: '요청 시간을 초과 하였습니다. 다시 시도해주시기 바랍니다.',
-                    })
-                } else {
-                    Modal.error({
-                        content: '처리 중 오류 발생',
-                    })
-                }
-            }).then((res)=> {
-                this.loading = false
-            })
+                    if (e.code === 'ECONNABORTED') {
+                        Message.error('요청 시간을 초과 하였습니다. 다시 시도해주시기 바랍니다.')
+                    } else {
+                        Message.error('처리 중 오류 발생')
+                    }
+                }).then((res)=> {
+                    this.loading = false
+                })
         },
         getDetail(order_no) {
             this.loading = true
@@ -79,13 +74,13 @@ export default {
                     if (res.data) {
                         this.detailData = res.data
                     } else {
-                        alert('통신 실패')
+                        Message.error('통신 실패')
                     }
                 }).catch((e)=>{
                 if (e.code === 'ECONNABORTED') {
-                    alert('요청 시간을 초과 하였습니다. 다시 시도해주시기 바랍니다.')
+                    Message.error('요청 시간을 초과 하였습니다. 다시 시도해주시기 바랍니다.')
                 } else {
-                    alert('처리 중 오류 발생')
+                    Message.error('처리 중 오류 발생')
                 }
             }).then((res)=> {
                 this.loading = false

@@ -52,9 +52,11 @@
 
 <script>
 import MultiSelectButtons from '../../../Components/multi-select-buttons'
+import CommonMixin from '../../../../mixins/admin/common-mixin'
 
 export default {
   name: "product-filter-box",
+  mixins: [CommonMixin],
   components: {MultiSelectButtons},
   data() {
     return {
@@ -76,9 +78,6 @@ export default {
     }
   },
   computed : {
-    constants() {
-      return this.$store.state.const
-    }
   },
   created() {
     // 리셋 기능을 위해 clone 데이터 생성

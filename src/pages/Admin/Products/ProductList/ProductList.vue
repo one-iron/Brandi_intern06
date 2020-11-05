@@ -36,13 +36,15 @@
         <td>{{ item.name }}</td> <!-- 상품명 -->
         <td><router-link :to="'products/'+item.product_id">{{ item.code_number }}</router-link></td> <!-- 상품코드 -->
         <td>{{ item.product_id }}</td> <!-- 상품번호 -->
-        <td>{{ getSellerPropertyName(item.seller_property_id) }}</td> <!-- 셀러속성 -->
+        <td>{{ item.seller_property_id | typeToName('sellerSections') }}</td> <!-- 셀러속성 -->
         <td>{{ item.brand_name_korean }}</td> <!-- 셀러명 -->
         <td>{{ item.price | makeComma }}</td> <!-- 판매가 -->
         <td>{{ item.discount_price | makeComma }} <span class="discount-rate" v-if="item.discount_rate > 0">({{ item.discount_rate }}%)</span></td> <!-- 할인가 -->
-        <td>{{ getProductSaleTypeName(item.is_sell) }}</td> <!-- 판매여부 -->
-        <td>{{ getProductDisplayTypeName(item.is_display) }}</td> <!-- 진열여부 -->
-        <td>{{ getProductDiscountTypeName(item.is_discount) }}</td> <!-- 할인여부 -->
+        <td>{{ item.is_sell | typeToName('saleTypes') }}</td> <!-- 판매여부 -->
+        <td>{{ item.is_display | typeToName('exhibitTypes') }}</td> <!-- 진열여부 -->
+        <td><!--{{ getProductDiscountTypeName(item.is_discount) }}-->
+          {{ item.is_discount | typeToName('discountTypes') }}
+        </td> <!-- 할인여부 -->
         <td>
           <a-button type="primary" size="small" @click="buyProduct(item)">구매하기</a-button>
         </td>
@@ -56,9 +58,11 @@ import Vue from 'vue'
 import store from './product-store'
 import ProductFilterBox from './product-filter-box'
 import BoardList from '../../../Components/BoardList'
+import CommonMixin from '../../../../mixins/admin/common-mixin'
 
 export default {
   name: 'product-list',
+  mixins: [CommonMixin],
   components: {BoardList, ProductFilterBox},
   data () {
     return {
@@ -82,38 +86,8 @@ export default {
     buyProduct(row) {
       console.log('상품 구매', row)
     },
-    getSellerStatusName(status_id) {
-      let statusItem = this.constants.sellerStatus.filter((d)=>{return d.value == status_id})
-      if (statusItem.length > 0) return statusItem[0].label
-      return ''
-    },
-    getSellerPropertyName(property_id) {
-      let statusItem = this.constants.sellerSections.filter((d)=>{return d.value == property_id})
-      if (statusItem.length > 0) return statusItem[0].label
-      return ''
-    },
-    getProductSaleTypeName(sale_type) {
-      let statusItem = this.constants.saleTypes.filter((d)=>{return d.value == sale_type})
-      if (statusItem.length > 0) return statusItem[0].label
-      return ''
-    },
-    getProductDisplayTypeName(display_type) {
-      let statusItem = this.constants.exhibitTypes.filter((d)=>{return d.value == display_type})
-      if (statusItem.length > 0) return statusItem[0].label
-      return ''
-    },
-    getProductDiscountTypeName(discount_type) {
-      let statusItem = this.constants.discountTypes.filter((d)=>{return d.value == discount_type})
-      if (statusItem.length > 0) return statusItem[0].label
-      return ''
-    }
-
-
   },
   computed: {
-    constants() {
-      return this.$store.state.const
-    }
   }
 }
 </script>

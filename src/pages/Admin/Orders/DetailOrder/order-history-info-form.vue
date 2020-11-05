@@ -10,7 +10,7 @@
       <tbody>
       <tr v-for="item in dataStore.detailData.order_histories">
         <td>{{ item.update_time }}</td>
-        <td>{{ getOrderStatusTypeName(item.order_status_id) }}</td>
+        <td>{{ item.order_status_id | typeToName('orderStatusTypes') }}</td>
       </tr>
       </tbody>
     </table>
@@ -18,7 +18,10 @@
 </template>
 
 <script>
+import CommonMixin from '../../../../mixins/admin/common-mixin'
 export default {
+  name: 'order-history-info-form',
+  mixins: [CommonMixin],
   components: {
   },
   props: {
@@ -33,16 +36,8 @@ export default {
     }
   },
   computed: {
-    constants() {
-      return this.$store.state.const
-    },
   },
   methods: {
-    getOrderStatusTypeName(order_status) {
-      let statusItem = this.constants.orderStatusTypes.filter((d)=>{return d.value == order_status})
-      if (statusItem.length > 0) return statusItem[0].label
-      return ''
-    }
   }
 }
 </script>
