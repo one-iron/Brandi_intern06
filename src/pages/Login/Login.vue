@@ -23,8 +23,13 @@
 </template>
 
 <script>
-import axios from "axios";
+import Message from '../../utils/message'
+import CommonMixin from '../../mixins/admin/common-mixin'
+import AdminApiMixin from '../../mixins/admin/admin-api'
+
 export default {
+  name: 'login',
+  mixins: [AdminApiMixin, CommonMixin],
   data() {
     return {
       account: "",
@@ -45,7 +50,7 @@ export default {
     //token 물어보기
     sendSumbit() {
       axios
-        .post("http://192.168.7.25:5000/login", {
+        .post(this.constants.apiDomain+"/signup", {
           account: this.account,
           password: this.password
         })
@@ -61,7 +66,7 @@ export default {
         .catch(err => {
           console.log(err.response);
           console.log(err.response.message);
-          alert("입점 승인 대기중 입니다. 잠시만 기다려주세요 🤗");
+          Message.error("로그인에 실패하였습니다.");
         });
     }
   }

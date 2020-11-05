@@ -51,9 +51,20 @@ import OrderHistoryInfoForm from './order-history-info-form'
 import OrderCsInfoForm from './order-cs-info-form'
 import 'vue-multi-ref'
 import store from '../order-store'
+import CommonMixin from '../../../../mixins/admin/common-mixin'
+import Utils from '../../../../utils/utils'
 
 export default {
   name: 'register-seller',
+  mixins: [CommonMixin],
+  components: {
+    OrderInfoForm,
+    OrderDetailInfoForm,
+    OrderProductInfoForm,
+    OrderDeliveryInfoForm,
+    OrderHistoryInfoForm,
+    OrderCsInfoForm
+  },
   data() {
     return {
       dataStore: new Vue(store),
@@ -62,19 +73,12 @@ export default {
     }
   },
   props: {
+    // path param
     detailNo: {
       default() {
         return 0
       }
     }
-  },
-  components: {
-    OrderInfoForm,
-    OrderDetailInfoForm,
-    OrderProductInfoForm,
-    OrderDeliveryInfoForm,
-    OrderHistoryInfoForm,
-    OrderCsInfoForm
   },
   mounted () {
     this.dataStore.getDetail(this.detailNo)
@@ -95,7 +99,7 @@ export default {
         this.tabNo = len-1
         return
       }
-      let elTop = this.getOffset2(this.$refs.pageContent[0].$el).top
+      let elTop = Utils.getOffset(this.$refs.pageContent[0].$el).top
       for (let i=0; i<len; i++) {
         if (pageContents[i].$el.getBoundingClientRect().top < elTop && pageContents[i].$el.getBoundingClientRect().bottom > elTop) {
           this.tabNo = i
@@ -104,38 +108,11 @@ export default {
     },
     scrollTab(tabNo) {
       let pageContents = this.$refs.pageContent
-      let elTop = this.getOffset2(this.$refs.pageContent[0].$el).top
-      window.scrollTo({top: this.getOffset2(pageContents[tabNo].$el).top - elTop, behavior: 'smooth'})
+      let elTop = Utils.getOffset(this.$refs.pageContent[0].$el).top
+      window.scrollTo({top: Utils.getOffset(pageContents[tabNo].$el).top - elTop, behavior: 'smooth'})
     },
-    getOffset( el ) {
-      var _x = 0;
-      var _y = 0;
-      while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
-        _x += el.offsetLeft - el.scrollLeft;
-        _y += el.offsetTop - el.scrollTop;
-        el = el.offsetParent;
-      }
-      return { top: _y, left: _x };
-    },
-    getOffset2( el ) {
-      var _x = 0;
-      var _y = 0;
-      while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
-        _x += el.offsetLeft;
-        _y += el.offsetTop;
-        el = el.offsetParent;
-        // if (el == document.body) break
-      }
-      return { top: _y, left: _x };
-    }
-  },
-  constants() {
-    return this.$store.state.const
   },
   watch: {
-    tabNo(v) {
-      console.log('changeV', v)
-    }
   }
 }
 </script>

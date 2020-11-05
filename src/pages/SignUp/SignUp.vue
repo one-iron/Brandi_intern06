@@ -146,9 +146,12 @@ import ButtonBlue from "../components/ButtonBlue";
 import ButtonRed from "../components/ButtonRed";
 import RadioBtn from "../components/RadioBtn";
 import Spinner from "../components/Spinner";
+import Message from '../../utils/message'
+import CommonMixin from '../../mixins/admin/common-mixin'
 
 export default {
   name: "Signup",
+  mixins: [CommonMixin],
   components: {
     bluebutton: ButtonBlue,
     redbutton: ButtonRed,
@@ -229,12 +232,20 @@ export default {
     sendSubmit(value) {
       console.log("보내기 직전", value);
       axios
+<<<<<<< HEAD
         .post("http://192.168.7.25:5000/signup", value)
 
         .then(response => {
           console.log("res", response);
           if (response.status === 200) {
             alert("회원가입을 축하합니다!");
+=======
+        .post(this.constants.apiDomain+"/signup", value)
+        .then(res => {
+          console.log("백엔드 응답", res.data);
+          if (res.status === 200) {
+            Message.success("회원가입을 축하합니다!");
+>>>>>>> c3b861841ee921652d2e30339d49211a48087b42
             this.isLoading = false;
             this.$router.push("/");
           }

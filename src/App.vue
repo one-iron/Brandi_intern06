@@ -7,9 +7,21 @@
 </template>
 
 <script>
+// 한국어 대응
 import koKr from 'ant-design-vue/lib/locale-provider/ko_KR';
 import store from './vuex/store'
+import Vue from 'vue'
+import Utils from './utils/utils.js'
 
+Vue.filter("makeComma", val => {
+  return Utils.makeComma(val)
+})
+Vue.filter("emptyDash", val => {
+  if (val === undefined) return '-'
+  if (val === null) return '-'
+  if (val === '') return '-'
+  return val
+})
 export default {
   name: "App",
   store: store,
@@ -17,8 +29,17 @@ export default {
     return {
       locale: koKr
     }
+  },
+  created () {
+    Vue.filter("typeToName", (val, type)=> {
+      let statusItem = this.$store.state.const[type].filter((d)=>{return d.value == val})
+      if (statusItem.length > 0) return statusItem[0].label
+      return ''
+    })
   }
 };
+
+
 </script>
 
 <style lang="scss" scoped>

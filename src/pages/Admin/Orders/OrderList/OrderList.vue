@@ -77,9 +77,11 @@ import Vue from 'vue'
 import store from '../order-store'
 import OrderFilterBox from './order-filter-box'
 import BoardList from '../../../Components/BoardList'
+import CommonMixin from '../../../../mixins/admin/common-mixin'
 
 export default {
   name: 'product-list',
+  mixins: [CommonMixin],
   components: {BoardList, OrderFilterBox},
   props: {
     status_id: {
@@ -124,9 +126,6 @@ export default {
     },
   },
   computed: {
-    constants() {
-      return this.$store.state.const
-    },
   }
 }
 </script>

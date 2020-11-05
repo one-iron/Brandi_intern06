@@ -18,9 +18,7 @@ import Orders from '../pages/Admin/Orders/Orders'
 import OrderList from '../pages/Admin/Orders/OrderList/OrderList'
 import DetailOrder from '../pages/Admin/Orders/DetailOrder/DetailOrder'
 
-
 Vue.use(Router)
-
 export default new Router({
   mode: 'history',
   routes: [
